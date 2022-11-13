@@ -1,0 +1,51 @@
+/* File: assets/css/header.css
+ * Info: Items that go in the header section 
+ */
+
+header {
+    text-align: center;
+    background-color: var(--link);
+    /* TODO: Add a gradient */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+header > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    box-shadow: var(--bsh);
+}
+
+header > img:hover {
+    animation: wiggle 2s linear 1;
+}
+
+/* I'm sticking the animation here, because the image in the header is the onely one that uses it. */
+/* Borrowed this wiggle animation from https://alvarotrigo.com/blog/10-cool-css-animations-to-add-to-your-website/ */
+@keyframes wiggle {
+    0%, 7% {
+    transform: rotateZ(0);
+    }
+    15% {
+    transform: rotateZ(-15deg);
+    }
+    20% {
+    transform: rotateZ(10deg);
+    }
+    25% {
+    transform: rotateZ(-10deg);
+    }
+    30% {
+    transform: rotateZ(6deg);
+    }
+    35% {
+    transform: rotateZ(-4deg);
+    }
+    40%, 100% {
+    transform: rotateZ(0);
+    }
+}

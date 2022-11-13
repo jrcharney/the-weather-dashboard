@@ -1,0 +1,51 @@
+/* File: assets/css/ribbon.css
+ * Info: Stylesheets for adding a ribbon to the corner of the header.
+ * TODO: Integrate theme colors
+ */
+
+.ribbon {
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    right: 0px;
+    width: 200px;
+    height: 200px;
+    z-index: 100;
+    /* background: #0f0; */
+}
+
+.ribbon > span {
+    position: absolute;
+    display: block;
+    width: 300px;
+    left: -30px;
+    top: 50px;
+
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 1px;
+    background-color: hsl(260,73%,50%); /* #D90; */ /* TODO: Change this color to something that reflects the theme better */
+    color: #f0f0f0;
+    box-shadow: -5px 5px 3px rgba(0,0,0,.3);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* TODO: Change to theme colors */
+.ribbon > span > a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+.ribbon > span > a[href]:link{
+    color: #efefef;
+}
+.ribbon > span > a[href]:visited{
+    color: #efefef;
+}
+.ribbon > span > a[href]:active{
+    color: #ffffff;
+}
+.ribbon > span > a[href]:hover{
+    color: #ffffff;
+}

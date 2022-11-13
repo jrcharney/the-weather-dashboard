@@ -1,0 +1,149 @@
+/* File: assets/css/style.css */
+@import url("theme.css");
+@import url("global.css");
+@import url("ribbon.css");
+@import url("header.css");
+@import url("footer.css");
+
+/* Note: we need to use display. If we use visibility, it will still show where the this is we hid. */
+.show {display: block;}
+.hide {display: none;}
+
+/*
+#testing {
+    background: #fcc;
+    border: 3px dotted #f00;
+}
+*/
+
+#uhoh{
+    width:90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 3px 3px 5px var(--bs);
+    background: #ccc;
+    color: #000;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.construction {
+    background: repeating-linear-gradient(
+        45deg,
+          #f80,
+          #f80 20px,
+          #000 20px,
+          #000 40px
+        );
+    width: 100%;
+    min-height: 20px;
+}
+
+#uhoh > div:first-child{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#uhoh > div:last-child {
+    padding: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.card {
+    width: 90%;
+    min-width: 640px;
+    min-height: 480px;
+    background: #fff;
+    color: #000;
+    box-shadow: 3px 3px 5px var(--bs);
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card_header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* The questions and answer */
+.card_body{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border: 1px solid #f00;
+    min-height: 200px;
+}
+
+.card_footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* Score */
+.top_left{}
+
+/* Title */
+.top_center {
+    text-align: center;
+}
+
+/* Timer */
+.top_right{}
+
+/* Previous Button */
+.bottom_left{}
+
+/* Card tabs */
+.bottom_center {
+    display: flex;
+    flex-direction: row;
+    /*border: 1px solid #f00; */
+    width: 400px;
+    min-width: 300px;
+    justify-content: center;
+}
+
+/* Next Button */
+.bottom_right{}
+
+#btn_prev {
+    cursor: pointer;
+}
+#btn_next {
+    cursor: pointer;
+}
+
+.tab {
+    border: 1px solid #000;
+    width: 30px;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #fff;
+    margin-top: 0;
+}
+
+.tab:hover {
+    background-color: #fcc;
+}
+
+.selected {
+    font-weight: bold;
+}
+
+.panel {
+    /* display: block; */       /* Don't set this here. Let .show and .hide handle that. */
+    border: 1px solid #000;
+    width: 90%;
+    padding: 5px;
+    margin-bottom: 0;
+    border-radius: 5px;
+}

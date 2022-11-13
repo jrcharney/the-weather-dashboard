@@ -1,0 +1,52 @@
+/* File: assests/css/theme.css
+ * Info: Color scheme
+ * TODO: I'm thinking violet
+ * TODO: CSS Math
+ * TODO: Check the Password Generator's theme.css file for changes.
+ */
+ :root {
+    /* theme hue */
+    --hue: 260;     /* TODO: make this adjustable. Value between 0 and 360 */
+    /* saturation is between 0 (pale) and 100 (vibrant) */
+    /* lightness is between 0 (black) and 100 (white), typically 50 */
+
+    /* shadows */
+    /* box shadows and text shadows should be defined the same. */
+    --bsh: 3px 3px 5px #222;    /* box shadow */
+    --tsh: #222 3px 3px 5px;    /* text shadow */
+
+    /* Page Colors */
+    --bc:       #333; /* hsl(var(--hue),100%,50%);   /* background color */
+    --tc:       #fff;   /* text color */
+    /* TODO: gradient colors for the background */
+
+    /* Link colors */
+    --link:     hsl(var(--hue),80%,50%);
+    --visited:  hsl(var(--hue),73%,50%); /* B70 */
+    --active:   hsl(var(--hue),87%,50%); /* D90 */
+    --hover:    hsl(var(--hue),93%,50%); /* EA0 */
+
+    /* header colors */
+    --hbc:      hsl(var(--hue),73%,50%);
+    --htc:      #fff;
+    /* We won't need to define header link colors */
+
+    /* footer colors */
+    --fbc:      hsl(var(--hue),73%,50%);   /* should be the same as --hbc */
+    --ftc:      #fff;   /* should be the same as --htc */
+    /* footer link colors */
+    --flink:    #efefef;
+    --fvisited: #dedede;
+    --factive:  #ffffff;
+    --fhover:   #ffffff;
+
+    /* blockquote */
+    /* There should be several blockquote themes depending on the bq type. */
+    --bqac:     hsl(var(--hue),87%,50%);  /* Accent color. */ /* D90 */
+    --bqbc:     hsl(var(--hue),67%,50%);;  /* Background color */ /* A60 */
+    --bqtc:     #fff;  /* Text color */
+
+    /* TODO: main/.card/aside colors */
+    /* TODO: nav colors */
+    /* TODO: Ribbon colors */
+}

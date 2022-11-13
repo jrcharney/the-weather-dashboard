@@ -1,0 +1,51 @@
+/* File: assest/css/global.css
+ */
+ body {
+    font-family: sans-serif;
+    background-color: var(--bc);
+    color: var(--tc);
+}
+
+a[href] {
+    text-decoration: none;
+}
+
+a[href]:link {
+    color: var(--link);
+    transition: color 0.5s ease;
+}
+a[href]:visited {
+    color: var(--visited);
+    transition: color 0.5s ease;
+}
+a[href]:active {
+    color: var(--active);
+    transition: color 0.5s ease;
+}
+a[href]:hover {
+    color: var(--hover);
+}
+
+summary {
+    cursor: pointer;
+}
+
+/* I was under the impression that by using a defintion list (dl), the defintion terms (dt) would be bold. Apparently, I was wrong about that. This should fix it. */
+dt {
+    font-weight: bold;
+}
+
+h1, h2, h3 {
+    text-shadow: var(--tsh);
+}
+
+/* TODO: Make a few classes for bq */
+blockquote {
+    width: 80%;
+    border-left: 3px solid var(--bqac);
+    background-color: var(--bqbc);
+    /* TODO: gradient background */
+    color: var(--bqtc);
+    padding: 3px;
+    box-shadow: var(--bsh);
+}

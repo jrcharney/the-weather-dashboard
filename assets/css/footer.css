@@ -1,0 +1,33 @@
+/* File: assets/css/footer.css
+ * Info: All the styles for the footer element
+ */
+footer {
+    background-color: var(--fbc);
+    /* TODO: add a gradient */
+    color: var(--ftc);
+    font-size: 10pt;
+    border-radius: 5px;
+}
+
+footer > section {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+footer a[href]:link {
+    color: var(--flink);
+}
+footer a[href]:visited {
+    color: var(--fvisited);
+}
+footer a[href]:active {
+    color: var(--factive);
+}
+footer a[href]:hover {
+    color: var(--fhover);
+}
+
+footer > section:last-child {
+    background-color: #111;
+    color: #fff;
+}

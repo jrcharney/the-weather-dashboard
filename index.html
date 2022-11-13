@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Weather Dashboard</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script defer src="./assets/js/script.js"></script>
+</head>
+<body>
+    <div class="ribbon">
+        <span><a href="https://github.com/jrcharney/the-weather-dashboard">Fork on Github</a></span>
+    </div>
+    <header id="top">
+        <!-- We need an ID here so that we can jump back up to the top -->
+        <img src="assets/images/my_killer_robot.jpg" alt="pfp" width="100" height="100">
+        <h1>Jason Charney</h1>
+    </header>
+    <!-- I'm thinking of using a nav bar this time to add a couple of pages for resources -->
+    <nav>
+        <!-- TODO: Add some links -->
+    </nav>
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <img src="./assets/images/The_Weather_Dashboard.png" alt="The Weather Dashboard"/>
+                <!-- TODO: Generate some random slogans -->
+                <h2>As Boring as You Remembered It</h2>
+                <!-- Some random slogans
+                    * Maybe Y2K should have happened.
+                    * I'm back in the Must warn President Clinton about 9/11!
+                    * Because so much is riding on your tires (I know it's the Michelin slogan, but who hasn't seen the Michelin baby commericals a million times?)
+                    * John Hope Forever!
+                    * R.I.P. Weather Chazz (1980-2019)
+                    * What is this "Synthwave" you speak of?
+                    * What is this "Mallsoft" you speak of?
+                    * "Vaporwave"? Is that some kind of Tupperware?
+                    * Network Decay? What network decay?
+                    * Help fight network decay! Brush your cable box twice a day!
+                    * Who the hell is Al Roker?
+                    * What do you mean Jim Cantore still works here in the future?
+                    * We don't do reality TV here. Go talk to A&amp;E.
+                    * Part of a healthy basic cable package.
+                    * Amiga Computers will be here forever!
+                    * She's says she's a ten, but by our standards she's more like a TORCON 7.
+                    * Suck it, Accuweather!
+                    * Who is Weather Nation?
+                -->
+            </div>
+            <div class="card-body">
+                <!-- TODO: Should I use separate forms for each tab? -->
+                <form action="./results.html" method="get">
+                    <input type="hidden" name="appsite" value="https://api.openweathermap.org/data/2.5/forecast">
+                    <input type="hidden" name="appid" value="{API Key}">
+            
+                    <details>
+                        <summary>Options</summary>
+                        <fieldset>
+                            <legend>Units</legend>
+                            <!-- "MERICA UNITS" by default -->
+                            <input type="radio" name="units" id="imperial" value="imperial" checked>
+                            <label for="imperial"></label>
+                            <input type="radio" name="units" id="metric" value="metric">
+                            <label for="metric"></label>
+                        </fieldset>
+                    </details>
+        
+                    <div class="tabpanels">
+                        <div class="tabbar">
+                            <div class="tab" title="Search using geocoordinates">Geo</div>
+                            <div class="tab" title="Search using City and State">City</div>
+                        </div>
+                        <div class="panels">
+                            <div class="panel">
+                                <fieldset>
+                                    <legend>Geocoordinates</legend>
+                                    <!-- TODO: Fetch geocordiantes by IP address -->
+                                    <!-- NOTE: Negative nubers in lat represent the southern hemisphere -->
+                                    <label for="lat"></label>
+                                    <input type="number" name="lat" id="lat" min="-90" max="90" value="{lat}">
+                                    <!-- NOTE: Negative nubers in lon represent the wester hemisphere -->
+                                    <label for="lon"></label>
+                                    <input type="number" name="lon" id="lon" min="-180" max="180" value="{lon}">
+                                    <button type="submit">Search</button>
+                                </fieldset>                                
+                            </div>
+                            <div class="panel">
+                                <fieldset>
+                                    <legend>City Search</legend>
+                                    <label for="query" placeholder="City, State"></label>
+                                    <input type="search" name="query" id="query">
+                                    <button type="submit">Search</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer"></div>
+    </main>
+    <footer>
+        <section>
+            <section>
+                <h3>Links</h3>
+                <ul>
+                    <li><a href="https://jrcharney.github.io/">Home</a></li>
+                    <li><a href="https://github.com/jrcharney/">Github</a></li>
+                    <li><a href="https://codepen.io/jrcharney/">CodePen</a></li>
+                    <li><a href="https://dev.to/jrcharney/">Dev.to</a></li>
+                </ul>
+            </section>
+            <!-- TODO: vertical hr -->
+            <section></section>
+        </section>
+        <section>
+            <p>&copy; 2022 | A JRCharney Production | <img src="assets/images/US-United-States-Flag-icon.png" alt="US Flag" width="16px" height="16px"> Coded in America</p>
+        </section>
+    </footer>
+</body>
+</html>
