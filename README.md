@@ -1,6 +1,6 @@
 # ⛈️ The Weather Dashboard ⛈️
 
-[The Weather Dashboard](./assets/images/The_Weather_Dashboard.png)
+![The Weather Dashboard](./assets/images/The_Weather_Dashboard.png)
 Network Decay? What Network Decay?
 
 Homework Challenge 6, Due November 21.

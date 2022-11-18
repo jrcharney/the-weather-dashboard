@@ -20,13 +20,17 @@
     <!-- I'm thinking of using a nav bar this time to add a couple of pages for resources -->
     <nav>
         <!-- TODO: Add some links -->
+        <ul>
+            <li><a href="./pages/about.html" title="About this project">About</a></li>
+            <li><a href="./pages/links.html" title="A whole bunch of weather links!">Links</a></li>
+        </ul>
     </nav>
     <main>
         <div class="card">
             <div class="card-header">
                 <img src="./assets/images/The_Weather_Dashboard.png" alt="The Weather Dashboard"/>
                 <!-- TODO: Generate some random slogans -->
-                <h2>As Boring as You Remembered It</h2>
+                <h2 id="slogan">As Boring as You Remember It (Good!)</h2>
                 <!-- Some random slogans
                     * Maybe Y2K should have happened.
                     * I'm back in the Must warn President Clinton about 9/11!
@@ -46,7 +50,13 @@
                     * She's says she's a ten, but by our standards she's more like a TORCON 7.
                     * Suck it, Accuweather!
                     * Who is Weather Nation?
+                    * Proudly boring since 1982!
+                    * Don't sue us!
+                    * Trammel Sparks!
                 -->
+                <blockquote>
+                    <p>Note: This is a homework assignment/fan-made project! Don't sue us! Rely on the real deal, or better yet, visit the <a href="https://www.weather.gov/">National Weather Service</a> and learn how to set up emergency alerts on your phone as part of Weather-Ready Nation! Visit <a href="https://www.weather.gov/wrn/">weather.gov/wrn/</a> for more details!</p>
+                </blockquote>
             </div>
             <div class="card-body">
                 <!-- TODO: Should I use separate forms for each tab? -->
@@ -54,22 +64,22 @@
                     <input type="hidden" name="appsite" value="https://api.openweathermap.org/data/2.5/forecast">
                     <input type="hidden" name="appid" value="{API Key}">
             
-                    <details>
+                    <details open>
                         <summary>Options</summary>
                         <fieldset>
                             <legend>Units</legend>
                             <!-- "MERICA UNITS" by default -->
                             <input type="radio" name="units" id="imperial" value="imperial" checked>
-                            <label for="imperial"></label>
+                            <label for="imperial">Imperial</label>
                             <input type="radio" name="units" id="metric" value="metric">
-                            <label for="metric"></label>
+                            <label for="metric">Metric</label>
                         </fieldset>
                     </details>
         
                     <div class="tabpanels">
                         <div class="tabbar">
                             <div class="tab" title="Search using geocoordinates">Geo</div>
-                            <div class="tab" title="Search using City and State">City</div>
+                            <div class="tab selected" title="Search using City and State">City</div>
                         </div>
                         <div class="panels">
                             <div class="panel">
@@ -77,10 +87,10 @@
                                     <legend>Geocoordinates</legend>
                                     <!-- TODO: Fetch geocordiantes by IP address -->
                                     <!-- NOTE: Negative nubers in lat represent the southern hemisphere -->
-                                    <label for="lat"></label>
+                                    <label for="lat">Latitude</label>
                                     <input type="number" name="lat" id="lat" min="-90" max="90" value="{lat}">
                                     <!-- NOTE: Negative nubers in lon represent the wester hemisphere -->
-                                    <label for="lon"></label>
+                                    <label for="lon">Longitude</label>
                                     <input type="number" name="lon" id="lon" min="-180" max="180" value="{lon}">
                                     <button type="submit">Search</button>
                                 </fieldset>                                
@@ -97,8 +107,9 @@
                     </div>
                 </form>
             </div>
+            <div class="card-footer">
+            </div>
         </div>
-        <div class="card-footer"></div>
     </main>
     <footer>
         <section>

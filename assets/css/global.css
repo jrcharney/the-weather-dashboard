@@ -49,3 +49,37 @@ blockquote {
     padding: 3px;
     box-shadow: var(--bsh);
 }
+
+
+blockquote a[href] {
+    text-decoration: none;
+}
+
+blockquote a[href]:link {
+    color: var(--bqlink);
+    transition: color 0.5s ease;
+}
+blockquote a[href]:visited {
+    color: var(--bqvisited);
+    transition: color 0.5s ease;
+}
+blockquote a[href]:active {
+    color: var(--bqactive);
+    transition: color 0.5s ease;
+}
+blockquote a[href]:hover {
+    color: var(--bqhover);
+}
+
+.card-header {
+    text-align: center;
+}
+
+.card-header blockquote {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-header blockquote p {
+    text-align: left;
+}

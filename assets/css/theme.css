@@ -43,8 +43,13 @@
     /* blockquote */
     /* There should be several blockquote themes depending on the bq type. */
     --bqac:     hsl(var(--hue),87%,50%);  /* Accent color. */ /* D90 */
-    --bqbc:     hsl(var(--hue),67%,50%);;  /* Background color */ /* A60 */
-    --bqtc:     #fff;  /* Text color */
+    --bqbc:     #ccc;  /* Background color */ /* A60 */
+    --bqtc:     #000;  /* Text color */
+    --bqlink:     hsl(var(--hue),80%,50%);
+    --bqvisited:  hsl(var(--hue),73%,50%); /* B70 */
+    --bqactive:   hsl(var(--hue),87%,50%); /* D90 */
+    --bqhover:    hsl(var(--hue),93%,50%); /* EA0 */
+
 
     /* TODO: main/.card/aside colors */
     /* TODO: nav colors */
