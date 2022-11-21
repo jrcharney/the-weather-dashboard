@@ -3,6 +3,10 @@
  */
 #geo{}
 
-#weather{}
+#weather{
+    display: flex;
+}
 
-#forecast{}
+#forecast{
+    display: grid;
+}

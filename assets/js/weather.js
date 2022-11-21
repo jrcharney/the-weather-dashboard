@@ -175,5 +175,63 @@ export class Weather {
         return this.jsonString(forecast,true);
 
     }
+
+    /* TODO: find out what the weather icons mean and see if we can name our weather icons that */
+    async processWeather(){
+        //let location = `Currently in ${weather.name}`;  // NOTE: weather.name has been deprecated. TODO: get it from our geo data
+        // weather.dt   // current time un UNIX UTC. Convert from timestamp
+        // weather.timezone : -21600
+        // "weather" : [ { "id": 800, "main": "Clear", "description": "clear sky", "icon": "01n"} ]
+        let timestamp  = weather.dt;            // timestamp of observation, unix UTC. Convert from timestamp
+        let conditions = Object.values(weather.weather).map((wx) => `${wx.main}`).join(",");    // join multiple weather conditions if they exist.
+        let temperature = weather.main.temp;        // degrees F
+        let feels_like  = weather.main.feels_like;  // degrees F    TODO: is it always here?
+        let temp_min    = weather.main.temp_min;    // degrees F    TODO: what is this?
+        let temp_max    = weather.main.temp_max;    // degrees F    TODO: what is this?
+        let pressure    = weather.main.pressure;    // NOTE: Pressure is in hPa (is that the same as millibars?). It needs to be converted to in Hg.
+        let humidity    = weather.main.humidity;    // Humidity is in percent, so just add a % sign.
+        // TODO: dewpoint
+        let visibility  = weather.visibility;       // Measured in km. (10000) TODO: Convert to miles!
+        let wind_speed  = weather.wind.speed;       // Measured in MPH
+        let wind_gust   = weather.wind.gust;        // NOTE: This doesn't appear all the time
+        let wind_dir    = weather.wind.deg;         // TODO: Convert degrees to cardinal direction
+        let cloud_cover = weather.clouds.all;       // Cloudiness in percent, so just add a % sign.
+        let sunrise     = weather.sys.sunrise;      // This is in unix UTC timestamp 1669035004
+        let sunset      = weather.sys.sunset;       // This is in unix UTC timestamp 1669070679
+        // NOTE: The variables below don't appear all the time
+        let rain_1h     = weather.rain["1h"];       // Rain volume for the last hour, in mm (TODO: convert to inches)
+        let rain_3h     = weather.rain["3h"];       // Rain volume for the last three hours, in mm (TODO: convert to inches)
+        let snow_1h     = weather.snow["1h"];       // Snow volume for the last hour, in mm (TODO: convert to inches)
+        let snow_3h     = weather.snow["3h"];       // Snow volume for the last three hours, in mm (TODO: convert to inches)
+    }
+
+    async processForecast(){
+        // TODO: we will likely need a side column for the items below and a header that lists the day names.
+        weather.list.forEach((item) => {
+            let timestamp   = item.dt;            // timestamp of observation, unix UTC. Convert from timestamp
+            let conditions = Object.values(item.weather).map((wx) => `${wx.main}`).join(",");    // join multiple weather conditions if they exist.
+            let temperature = item.main.temp;        // degrees F
+            let feels_like  = item.main.feels_like;  // degrees F    TODO: is it always here?
+            let temp_min    = item.main.temp_min;    // degrees F    TODO: what is this?
+            let temp_max    = item.main.temp_max;    // degrees F    TODO: what is this?
+            let pressure    = item.main.pressure;    // NOTE: Pressure is in hPa (is that the same as millibars?). It needs to be converted to in Hg.
+            let humidity    = item.main.humidity;    // Humidity is in percent, so just add a % sign.
+            // TODO: dewpoint
+            let visibility  = item.visibility;       // Measured in km. (10000) TODO: Convert to miles!
+            let pop         = item.pop;              // Percent of precipitation, add a % sign.
+            let pod         = item.sys.pod;          // Part of the Day. n = night, d = day
+            let wind_speed  = item.wind.speed;       // Measured in MPH
+            let wind_gust   = item.wind.gust;        // NOTE: This doesn't appear all the time
+            let wind_dir    = item.wind.deg;         // TODO: Convert degrees to cardinal direction
+            let cloud_cover = item.clouds.all;       // Cloudiness in percent, so just add a % sign.
+            let sunrise     = item.sys.sunrise;      // This is in unix UTC timestamp 1669035004
+            let sunset      = item.sys.sunset;       // This is in unix UTC timestamp 1669070679
+            // NOTE: The variables below don't appear all the time
+            //let rain_1h     = item.rain["1h"];       // Rain volume for the last hour, in mm (TODO: convert to inches)
+            let rain_3h     = item.rain["3h"];       // Rain volume for the last three hours, in mm (TODO: convert to inches)
+            //let snow_1h     = item.snow["1h"];       // Snow volume for the last hour, in mm (TODO: convert to inches)
+            let snow_3h     = item.snow["3h"];       // Snow volume for the last three hours, in mm (TODO: convert to inches)
+        });
+    }
     
 }
