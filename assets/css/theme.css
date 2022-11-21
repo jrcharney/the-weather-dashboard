@@ -1,14 +1,11 @@
-/* File: assests/css/theme.css
- * Info: Color scheme
- * TODO: I'm thinking violet
- * TODO: CSS Math
- * TODO: Check the Password Generator's theme.css file for changes.
+/* File: assets/css/theme.css
  */
  :root {
     /* theme hue */
-    --hue: 260;     /* TODO: make this adjustable. Value between 0 and 360 */
-    /* saturation is between 0 (pale) and 100 (vibrant) */
-    /* lightness is between 0 (black) and 100 (white), typically 50 */
+    /* #0c75bc */
+    --hue: 204;     /* TODO: make this adjustable. Value between 0 and 360 */
+    --sat: 88%;     /* saturation is between 0 (pale) and 100 (vibrant) */
+    --lux: 39%;     /* lightness is between 0 (black) and 100 (white), typically 50 */
 
     /* shadows */
     /* box shadows and text shadows should be defined the same. */

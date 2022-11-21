@@ -1,6 +1,6 @@
 /* File: assest/css/global.css
  */
- body {
+body {
     font-family: sans-serif;
     background-color: var(--bc);
     color: var(--tc);

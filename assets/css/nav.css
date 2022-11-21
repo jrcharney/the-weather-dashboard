@@ -1,0 +1,59 @@
+/* File: assets/css/nav.css */
+nav {
+    box-shadow: 3px 3px 5px var(--bs);
+    border-bottom-left-radius:  5px;
+    border-bottom-right-radius: 5px;
+}
+
+nav > ul {
+    display: flex;
+    background-color: #efefef;
+    margin-top: 0;  /* butt into the header */
+    padding: 0;
+    /* border: 1px solid #f00; */
+    justify-content: flex-start;
+    align-content: center;
+}
+
+nav > ul > li {
+    list-style-type: none;
+    display: block;
+    padding: 5px;
+    /* border: 1px solid #f00; */
+    background-color: transparent;
+    transition: background-color 0.5s;
+}
+
+nav > ul > li:hover {
+    background-color: #0c75bc;
+    transition: background-color 0.5s;
+}
+
+nav > ul > li > a {
+    color: #0c75bc; /*inherit; */
+    transform: color 0.5s;
+}
+
+nav > ul > li:hover > a {
+    color: #efefef;
+    transition: color 0.5s;
+}
+nav > ul > li:hover > a[href]:link {
+    color: #efefef;
+    transition: color 0.5s;
+}
+
+nav > ul > li:hover > a[href]:visited {
+    color: #dedede;
+    transition: color 0.5s;
+}
+
+nav > ul > li:hover > a[href]:active {
+    color: #ffffff;
+    transition: color 0.5s;
+}
+
+nav > ul > li:hover > a[href]:hover {
+    color: #efefef;
+    transition: color 0.5s;
+}
