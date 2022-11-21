@@ -1,7 +1,12 @@
 # ⛈️ The Weather Dashboard ⛈️
 
+<div style="text-align: center;">
 ![The Weather Dashboard](./assets/images/The_Weather_Dashboard.png)
-Network Decay? What Network Decay?
+
+**Network Decay? What Network Decay?**
+</div>
+
+<!-- screenshot goes here -->
 
 Homework Challenge 6, Due November 21.
 
@@ -30,15 +35,18 @@ THEN I am again presented with current and future conditions for that city
 ```
 
 ## TODO List
-- [ ] Create a text form that searches for weather by City
-  - [ ] TODO: What if there are cities with the same name in multiple locations? (e.g. how many states have a Springfield?)
+- [x] Create a text form that searches for weather by City
+  - [x] TODO: What if there are cities with the same name in multiple locations? (e.g. how many states have a Springfield?)
     - We could add a `<datalist>` element with auto-generated `<options>`. But how would that work?
+      - Not needed.
 - [ ] Display the current conditions of the city searched
 - [ ] Display the five day forecast that shows that displays the date, an icon representation of weather conditions, the temperature, wind speed, and humidity.
   - Not sure if it shows predicted humidity, but "percent of precipitation" ("POP") is more useful.
+    - There is a POP
   - Also, see if we can download our own weather icons. (Might be some long-term plan. What would The Weather Chazz do?)
     - Turns out we don't have to! We can borrow the ones recreated by Charles Abel-Lear (1980-2019) and Nick Smith on the [TWCClassics website](https://twcclassics.com/downloads.html). And they have the fonts! Proper attribution will be provided!
-- [ ] Use `localStorage` to preserve a list of previous city searches that we can look up again. Clicking on those cities should show the current conditions and five day forecasts for those cities.
+- [x] Use `localStorage` to preserve a list of previous city searches that we can look up again. Clicking on those cities should show the current conditions and five day forecasts for those cities.
+    - Turns out I used this to just store data.
     - In faithfulness to the classic [WeatherStar 4000](https://twcclassics.com/collections/weatherstar-4000-simulator.html) display of cities nationwide, the following cities should be displayed, and perhaps a weather icon and forecasted high and low temperatures.
         - Atlanta
         - Boston

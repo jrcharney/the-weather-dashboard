@@ -178,6 +178,7 @@ export class Weather {
 
     }
 
+    /* I actually pulled this block of code from an old Ruby program I wrote about a decade ago. */
     direction(angle){
         let dir;
         //if(    angle >= 348.75 || angle < 11.25  ) then "N"
