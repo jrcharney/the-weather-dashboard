@@ -55,13 +55,20 @@ const geo        = document.querySelector("#geo");
 const weather    = document.querySelector("#weather");
 const forecast   = document.querySelector("#forecast");
 
+const current    = document.querySelector("#current");
+//current.style.display = "none";
+
 console.log(getWeather);
 getWeather.disabled = true;
 
 async function getWx(){
-    geo.innerHTML      = await wx.getGeocode();
-    weather.innerHTML  = await wx.getWeather();
+    await wx.getGeocode();  // Still need to calculate this
+    //geo.innerHTML      = await wx.getGeocode();   // we just don't need to display it any more
+    //weather.innerHTML  = await wx.getWeather();   // or this
+    //current.style.display = "grid";
+    await wx.processWeather("#current");
     forecast.innerHTML = await wx.getForecast();
+    //await wx.processForecast("#soon");
 }
 
 /*

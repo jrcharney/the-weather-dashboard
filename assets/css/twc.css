@@ -1,12 +1,74 @@
 /* File: assets/css/twc.css
  * Info: CSS styles for all The Weather Channel looking stuff
  */
-#geo{}
+/* #geo{} */
 
-#weather{
-    display: flex;
+.field_name {
+    border: 1px groove #333;
+    font-weight: bold;
+    padding: 3px;
+    background: #ccc;
 }
 
-#forecast{
+.field_value {
+    border: 1px inset #333;
+    padding: 3px;
+}
+
+/* The plan here is to put the day of the week in one of these columns in our forecast */
+.col_name {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* TODO: Rename to just #weather later */
+#current{
+    /* display: flex; */
+    padding: 3px;
     display: grid;
+    grid-template-columns: [key] 0.25fr [value] 1fr [end];
+    grid-template-rows: [location] 25px 
+                        [obs_time] 25px 
+                        [conditions] 100px 
+                        [temperature] 50px 
+                        [feels_like] 25px 
+                        [pressure] 50px 
+                        [humidity] 25px
+                        [dewpoint] 25px
+                        [wind] 50px
+                        [cloud_cover] 25px
+                        [visibility] 25px
+                        [precip] 100px
+                        [sunrise] 25px
+                        [sunset] 25px 
+                        [end];
+    border: 1px outset #333;
+    grid-column-gap: 3px;
+    grid-row-gap: 3px;
+}
+
+/* TODO: Rename to just #forecast later */
+/* TODO: Column headers! */
+#soon{
+    padding: 3px;
+    display: grid;
+    grid-template-columns: [key] 100px repeat( 5, [value] 100px) [end];
+    grid-template-rows: [time] 50px
+                        [conditions] 50px 
+                        [temperature] 50px
+                        [pop] 25px
+                        [pod] 25px 
+                        [pressure] 50px 
+                        [humidity] 25px
+                        [dewpoint] 25px
+                        [wind] 50px
+                        [cloud_cover] 25px
+                        [visibility] 25px
+                        [sunrise] 25px
+                        [sunset] 25px 
+                        [precip] 50px
+                        [end];
+    border: 1px solid #080;
+    grid-column-gap: 3px;
+    grid-row-gap: 3px;
 }

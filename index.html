@@ -57,6 +57,9 @@
                 <blockquote>
                     <p>Note: This is a homework assignment/fan-made project! Don't sue us! Rely on the real deal, or better yet, visit the <a href="https://www.weather.gov/">National Weather Service</a> and learn how to set up emergency alerts on your phone as part of Weather-Ready Nation! Visit <a href="https://www.weather.gov/wrn/">weather.gov/wrn/</a> for more details!</p>
                 </blockquote>
+                <blockquote>
+                    <p>Second note: My calculations for dewpoint may be off because I can't seem to find a good Magus Formula for calculating dewpoint temperatures. So don't trust that yet.</p>
+                </blockquote>
             </div>
             <div class="card-body">
                 <input id="api_key" name="appid" type="hidden" value="3754e1f6d2f999d551ac812ebcc95206" >
@@ -64,8 +67,14 @@
                 <input id="query" name="query" type="text" placeholder="Enter your location" value="" tabindex="0" >
                 <button id="getWeather" name="getWeather" tabindex="0">Get Weather</button>
                 <pre id="geo"></pre><!-- Use pre for now, then change it to div later -->
-                <pre id="weather"></pre><!-- TODO: flexbox -->
+                <!-- <pre id="weather"></pre><!-- TODO: flexbox -->
+                <div id="current"></div>
                 <pre id="forecast"></pre><!-- TODO: grid -->
+                <div id="soon">
+                    <div class="field_name"></div>
+                    <div class="field_value"></div>
+
+                </div>
             </div>
             <div class="card-footer">
             </div>
