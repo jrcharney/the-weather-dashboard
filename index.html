@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Weather Dashboard</title>
     <link rel="stylesheet" href="./assets/css/style.css">
-    <script defer src="./assets/js/script.js"></script>
+    <script type="module" src="./assets/js/script.js"></script>
 </head>
 <body>
     <div class="ribbon">
@@ -59,53 +59,13 @@
                 </blockquote>
             </div>
             <div class="card-body">
-                <!-- TODO: Should I use separate forms for each tab? -->
-                <form action="./results.html" method="get">
-                    <input type="hidden" name="appsite" value="https://api.openweathermap.org/data/2.5/forecast">
-                    <input type="hidden" name="appid" value="{API Key}">
-            
-                    <details open>
-                        <summary>Options</summary>
-                        <fieldset>
-                            <legend>Units</legend>
-                            <!-- "MERICA UNITS" by default -->
-                            <input type="radio" name="units" id="imperial" value="imperial" checked>
-                            <label for="imperial">Imperial</label>
-                            <input type="radio" name="units" id="metric" value="metric">
-                            <label for="metric">Metric</label>
-                        </fieldset>
-                    </details>
-        
-                    <div class="tabpanels">
-                        <div class="tabbar">
-                            <div class="tab" title="Search using geocoordinates">Geo</div>
-                            <div class="tab selected" title="Search using City and State">City</div>
-                        </div>
-                        <div class="panels">
-                            <div class="panel">
-                                <fieldset>
-                                    <legend>Geocoordinates</legend>
-                                    <!-- TODO: Fetch geocordiantes by IP address -->
-                                    <!-- NOTE: Negative nubers in lat represent the southern hemisphere -->
-                                    <label for="lat">Latitude</label>
-                                    <input type="number" name="lat" id="lat" min="-90" max="90" value="{lat}">
-                                    <!-- NOTE: Negative nubers in lon represent the wester hemisphere -->
-                                    <label for="lon">Longitude</label>
-                                    <input type="number" name="lon" id="lon" min="-180" max="180" value="{lon}">
-                                    <button type="submit">Search</button>
-                                </fieldset>                                
-                            </div>
-                            <div class="panel">
-                                <fieldset>
-                                    <legend>City Search</legend>
-                                    <label for="query" placeholder="City, State"></label>
-                                    <input type="search" name="query" id="query">
-                                    <button type="submit">Search</button>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <input id="api_key" name="appid" type="hidden" value="3754e1f6d2f999d551ac812ebcc95206" >
+                <!-- Added tabindex for focus -->
+                <input id="query" name="query" type="text" placeholder="Enter your location" value="" tabindex="0" >
+                <button id="getWeather" name="getWeather" tabindex="0">Get Weather</button>
+                <pre id="geo"></pre><!-- Use pre for now, then change it to div later -->
+                <pre id="weather"></pre><!-- TODO: flexbox -->
+                <pre id="forecast"></pre><!-- TODO: grid -->
             </div>
             <div class="card-footer">
             </div>
