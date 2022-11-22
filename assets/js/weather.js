@@ -320,6 +320,9 @@ export class Weather {
         // TODO: Use .match() instead of .join() so we can use "with" and "and" to describe weather condtions.
         console.log(weather.weather);
         let conditions = Object.values(weather.weather).map((wx) => `${wx.main}`).join(",");    // join multiple weather conditions if they exist.
+        let icon = weather.weather[0].icon;
+        let icon_file = `https://openweathermap.org/img/wn/${icon}.png`;
+        let icon_alt  = weather.weather[0].description;
         let temperature = weather.main.temp;        // degrees F
         let feels_like  = weather.main.feels_like;  // degrees F    TODO: is it always here?
         let temp_min    = weather.main.temp_min;    // degrees F    TODO: what is this?
@@ -380,7 +383,7 @@ export class Weather {
             {
                 name: "Conditions",
                 title: "The observed weather conditions",
-                value: conditions
+                value: `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`
             },
             {
                 name: "Temperature",
