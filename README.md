@@ -1,7 +1,3 @@
----
-marp: true
----
-
 # ⛈️ The Weather Dashboard ⛈️
 
 <div style="text-align: center;">

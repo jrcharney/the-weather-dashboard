@@ -26,6 +26,7 @@
     /* display: flex; */
     padding: 3px;
     display: grid;
+    /* NOTE: grid-auto-flow: row. In the next table, it will go the other way */
     grid-template-columns: [key] 0.25fr [value] 1fr [end];
     grid-template-rows: [location] 25px 
                         [obs_time] 25px 
@@ -52,23 +53,26 @@
 #soon{
     padding: 3px;
     display: grid;
-    grid-template-columns: [key] 100px repeat( 5, [value] 100px) [end];
-    grid-template-rows: [time] 50px
-                        [conditions] 50px 
+    grid-auto-flow: column; /* This will allow us to enter our data from top to bottom with columns! */
+    grid-template-columns: [key] 150px repeat(40, [value] 200px) [end];
+    grid-template-rows: [dotw] 50px
+                        [conditions] 100px 
                         [temperature] 50px
-                        [pop] 25px
-                        [pod] 25px 
+                        [feels_like] 50px
                         [pressure] 50px 
                         [humidity] 25px
                         [dewpoint] 25px
                         [wind] 50px
                         [cloud_cover] 25px
                         [visibility] 25px
-                        [sunrise] 25px
-                        [sunset] 25px 
+                        [pop] 25px
+                        [pod] 25px
+                        /* [sunrise] 25px
+                        [sunset] 25px */ 
                         [precip] 50px
                         [end];
     border: 1px solid #080;
     grid-column-gap: 3px;
     grid-row-gap: 3px;
+    overflow-x: auto;
 }

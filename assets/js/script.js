@@ -67,8 +67,8 @@ async function getWx(){
     //weather.innerHTML  = await wx.getWeather();   // or this
     //current.style.display = "grid";
     await wx.processWeather("#current");
-    forecast.innerHTML = await wx.getForecast();
-    //await wx.processForecast("#soon");
+    // forecast.innerHTML = await wx.getForecast();
+    await wx.processForecast("#soon");
 }
 
 /*

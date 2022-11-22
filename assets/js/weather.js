@@ -281,6 +281,13 @@ export class Weather {
         return `${hh}:${mm}${ap}`;
     }
 
+    getDotW(stamp){
+        const date = new Date(stamp * 1000);
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        const dotw = days[date.getDay()];
+        return dotw;
+    }
+
     fieldName(name,title){
         const field_name = document.createElement("div");
         field_name.innerHTML = name;
@@ -379,7 +386,7 @@ export class Weather {
                 title: "Time of observation",
                 value: obs_time
             },
-            // TODO: need to get weather icon!
+            // TODO: need to get GOOD weather icon!
             {
                 name: "Conditions",
                 title: "The observed weather conditions",
@@ -431,7 +438,7 @@ export class Weather {
                 name: "Precipitation",
                 title: "Recorded rain or snow within the last hour or three hours.",
                 value: Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
-                        label = "";
+                        let label = "";
                         if(k.startsWith("rain")){label += "💧";}
                         if(k.startsWith("snow")){label += "❄️";}
                         label += " ";
@@ -460,37 +467,165 @@ export class Weather {
     }
 
     
-    async processForecast(){
+    async processForecast(el){
         // TODO: we will likely need a side column for the items below and a header that lists the day names.
         console.log("processForecast");
-        const url     = await this.getWeatherURL();
+        const url     = await this.getForecastURL();
         const weather = await this.jsonResponse(url);
 
         let name     = localStorage.getItem("name");
         let timezone = localStorage.getItem("timezone");
+
+        let soon = document.querySelector(el);
+        /* This time around we just use this to get our fields.
+         * Values will need to entered in another array for each day.
+         */
+        const fields = [
+            /*
+            {
+                name: "Location",
+                title: "Observation location",
+                value: `<span title="[${geo.lat},${geo.lon}]">${name}</span>`
+            },
+            */
+            {
+                name: "Day",
+                title: "Day of the week of forecast"
+                //value: time
+            },
+            // TODO: need to get GOOD weather icon!
+            {
+                name: "Conditions",
+                title: "Forecasted conditions"
+                //value: `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`
+            },
+            {
+                name: "Temperature",
+                title: "Air temperature"
+                //value: `${temperature.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`
+            },
+            {
+                name: "Feels Like",
+                title: "The 'feels like' temperature; it should factor in wind chill and heat index",
+                //value: `${feels_like.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`
+            },
+            {
+                name: "Barometric Pressure",
+                title: "The amount of atmospheric pressure",
+                //value: `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr><br/><small>(${pressure_hPa} <abbr title="millibars">mbar</abbr>)</small>`
+            },
+            {
+                name: "Relative Humidity",
+                title: "The amount of moisture in the air",
+                //value: `${humidity}%`
+            },
+            {
+                name: "Dewpoint Temperature",
+                title: "The temperature at which dew forms; also determines outdoor comfort",
+                //value: `<span title="LOOK AT THAT DEWPOINT!">${temp_dp.toFixed(1)}</span><abbr title="degrees Fahrenheit">&deg;F</abbr>`
+            },
+            {
+                name: "Wind Direction and Speed",
+                title: "The direction where the wind is coming from and how fast it is going. Wind gusts will appear in parenthesis if observed.",
+                //value: `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
+                //        + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : "")
+            },
+            {
+                name: "Cloud Cover",
+                title: "a.k.a. Cloudiness; How much of the sky was covered in clouds at time of observation",
+                //value: `${cloud_cover}%`
+            },
+            {
+                name: "Visibility",
+                title: "The farthest distance that can be seen",
+                //value: `${visibility.toFixed(2)} <abbr title="Miles">mi.</abbr>`
+            },
+            {
+                name: "P.O.P.",
+                title: "Percent of Precipitation, the chance of precipitation"
+            },
+            {
+                name: "P.O.D.",
+                title: "Part of the Day (n = night, d = day)"
+            },
+            /*
+            {
+                name: "🌅Sunrise",
+                title: "Time of sunrise",
+                //value: sunrise
+            },
+            {
+                name: "🌇Sunset",
+                title: "Time of sunset",
+                //value: sunset
+            },
+            */
+            {
+            // TODO: Should report "None" if no precip fell.
+            name: "Precipitation",
+            title: "Recorded rain or snow within the last hour or three hours.",
+            /*
+            value: Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
+                    label = "";
+                    if(k.startsWith("rain")){label += "💧";}
+                    if(k.startsWith("snow")){label += "❄️";}
+                    label += " ";
+                    if(k.endsWith("1h")){label += "last hour";}
+                    if(k.endsWith("3h")){label += "last 3 hours";}
+                    return `<strong>${label}:</strong> ${v.toFixed(2)}<abbr title="inches">in.</abbr>`;
+                }).join("<br>")
+            */
+            },
+        ];
+        fields.forEach((field) => {
+            soon.append(
+                this.fieldName(field.name,field.title)
+                //this.fieldValue(field.value)
+            );
+        });
+
+        //console.log(weather);
+        //console.log(Array.isArray(weather.list));
+        //console.log(weather.list);
         weather.list.forEach((item) => {
+
             let timestamp     = item.dt;            // timestamp of observation, unix UTC. Convert from timestamp
-            let time          = this.time_to_hhmm(timestamp,timezone);
-            // TODO: Get the day of the week for each time!
+            // TODO: Get the day of the week from item.dt!
+            let dotw = this.getDotW(timestamp);
+            let time          = this.time_to_hhmm(timestamp);
+            //let obs_time   = this.time_to_hhmm(timestamp);
+            
+            // TODO: Use .match() instead of .join() so we can use "with" and "and" to describe weather condtions.
+            console.log(item.weather);
             let conditions    = Object.values(item.weather).map((wx) => `${wx.main}`).join(",");    // join multiple weather conditions if they exist.
+            let icon          = item.weather[0].icon;
+            let icon_file     = `https://openweathermap.org/img/wn/${icon}.png`;
+            let icon_alt      = item.weather[0].description;
             let temperature   = item.main.temp;        // degrees F
             let feels_like    = item.main.feels_like;  // degrees F    TODO: is it always here?
             let temp_min      = item.main.temp_min;    // degrees F    TODO: what is this?
             let temp_max      = item.main.temp_max;    // degrees F    TODO: what is this?
+            // 1 hPa = 100 Pa = 1mb, so 1 hectopascal = 1 millibar
+            // 100 Pa = 1 hPA = 0.1 kPA
             let pressure_hPa  = item.main.pressure;    // NOTE: Pressure is in hPa (is that the same as millibars?). It needs to be converted to in Hg.
             let pressure_inHg = this.pressure_to_inHg(pressure_hPa);
             let humidity      = item.main.humidity;    // Humidity is in percent, so just add a % sign.
             let temp_dp       = this.dewpoint(temperature,humidity);  // "LOOK AT THAT DEW POINT!"
-            let visibility    = item.visibility;       // Measured in km. (10000) TODO: Convert to miles!
-            let pop           = item.pop;              // Percent of precipitation, add a % sign.
-            let pod           = item.sys.pod;          // Part of the Day. n = night, d = day
-            let wind_deg      = item.wind_deg;
+            let visibility    = this.vis_to_mi(item.visibility);       // Measured in km, converted to miles
+            // TODO: What if the winds are calm?
+            let wind_deg      = item.wind.deg;
             let wind_dir      = this.direction(wind_deg);    // shows wind in cardinal directions
-            let wind_speed    = item.wind.speed;       // Measured in MPH
+            let wind_speed    = Math.round(item.wind.speed);       // Measured in MPH
             let wind_gust     = (Object.keys(item.wind).includes("gust")) ? item.wind.gust : ""; // NOTE: This doesn't appear all the time
             let cloud_cover   = item.clouds.all;       // Cloudiness in percent, so just add a % sign.
-            let sunrise       = item.sys.sunrise;      // This is in unix UTC timestamp 1669035004
-            let sunset        = item.sys.sunset;       // This is in unix UTC timestamp 1669070679
+            let pop           = item.pop;              // Percent of precipitation, add a % sign.
+            let pod           = item.sys.pod;          // Part of the Day. n = night, d = day
+            
+            // TODO: Get sunrise and sunset calculation. (IDK that wasn't part of this API!)
+            //let sunrise     = this.time_to_hhmm(weather.sys.sunrise);      // This is in unix UTC timestamp 1669035004
+            //let sunset      = this.time_to_hhmm(weather.sys.sunset);       // This is in unix UTC timestamp 1669070679
+            // NOTE: The variables below don't appear all the time
+            
             // NOTE: The variables below don't appear all the time
             let precip = {
                 //rain_1h : 0,
@@ -508,6 +643,53 @@ export class Weather {
                     precip.snow_3h = this.precip_to_in(item.snow["3h"]);       // Snow volume for the last three hours, in mm, converted to inches
                 }
             }
+
+
+            let values = [
+                // dotw
+                `${dotw}<br>${time}`,       // TODO: .col_name!
+                // conditions
+                `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`,
+                // temperature
+                `${temperature.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`,
+                // feels_like
+                `${feels_like.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`,
+                // pressure
+                `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr><br/><small>(${pressure_hPa} <abbr title="millibars">mbar</abbr>)</small>`,
+                // humidity
+                `${humidity}%`,
+                // dewpoint
+                `<span title="LOOK AT THAT DEWPOINT!">${temp_dp.toFixed(1)}</span><abbr title="degrees Fahrenheit">&deg;F</abbr>`,
+                // wind
+                `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
+                    + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : ""),
+                // cloud_cover
+                `${cloud_cover}%`,
+                // visibility
+                `${visibility.toFixed(2)} <abbr title="Miles">mi.</abbr>`,
+                // pop
+                `${pop}%`,
+                // pod
+                pod,
+                // no sunrise
+                // no sunset
+                // precip (TODO: Return "None" if nothing expected)
+                Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
+                    let label = "";
+                    if(k.startsWith("rain")){label += "💧";}
+                    if(k.startsWith("snow")){label += "❄️";}
+                    label += " ";
+                    if(k.endsWith("1h")){label += "last hour";}
+                    if(k.endsWith("3h")){label += "last 3 hours";}
+                    return `<strong>${label}:</strong> ${v.toFixed(2)}<abbr title="inches">in.</abbr>`;
+                }).join("<br>")
+            ];
+            values.forEach((value) => {
+                soon.append(
+                    //this.fieldName(field.name,field.title)
+                    this.fieldValue(value)
+                );
+            });
         });
     }
 }
