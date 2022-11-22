@@ -122,6 +122,8 @@ export class Weather {
         //[lat, lon] = data;
         //console.log("getGeocode");
         //console.log(data);
+        // TODO: Exception needed. If data.name is undefined because of a typo, a "TypeError: Cannot read properties of undefined (reading 'name')" will occur!
+        // This program need exception handling anyway, but when we get around tit it, here is a good place to start.
         localStorage.setItem('name',data.name);
         localStorage.setItem('geo',JSON.stringify({ "lat" : data.lat, "lon" : data.lon }));
         //localStorage.setItem('lat',data.lat);
@@ -288,6 +290,30 @@ export class Weather {
         return dotw;
     }
 
+    temperatureFormat(temp){
+        return `${temp.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`;
+    }
+
+    pressure_inHgFormat(pressure_inHg){
+        return `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr>`;
+    }
+
+    pressure_hPaFormat(pressure_hPa){
+        return `${pressure_hPa} <abbr title="millibars">mbar</abbr>`;
+    }
+
+    percentFormat(num){
+        return `${num}%`;
+    }
+
+    distanceFormat(num){
+        return `${num.toFixed(2)} <abbr title="Miles">mi.</abbr>`;
+    }
+
+    precipFormat(num){
+        return `${num.toFixed(2)}<abbr title="inches">in.</abbr>`;
+    }
+
     fieldName(name,title){
         const field_name = document.createElement("div");
         field_name.innerHTML = name;
@@ -298,10 +324,14 @@ export class Weather {
         return field_name;
     }
 
-    fieldValue(value,title){
+    fieldValue(value,classes,title){
         const field_value = document.createElement("div");
         field_value.innerHTML = value;
         field_value.classList.add("field_value");
+        if(classes){
+            //console.log(classes);
+            field_value.classList.add(classes);
+        }
         if(title){
             field_value.setAttribute("title",title);
         }
@@ -564,10 +594,12 @@ export class Weather {
                 name: "P.O.P.",
                 title: "Percent of Precipitation, the chance of precipitation"
             },
+            /*
             {
                 name: "P.O.D.",
                 title: "Part of the Day (n = night, d = day)"
             },
+            */
             /*
             {
                 name: "🌅Sunrise",
@@ -669,52 +701,97 @@ export class Weather {
                 }
             }
 
-
             let values = [
-                // dotw
-                dotw,           // TODO: .col_name!
-                // time
-                time,           // TODO: .col_name!
-                // conditions
-                `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`,
-                // temperature
-                `${temperature.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`,
-                // feels_like
-                `${feels_like.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`,
-                // pressure
-                `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr><br/><small>(${pressure_hPa} <abbr title="millibars">mbar</abbr>)</small>`,
-                // humidity
-                `${humidity}%`,
-                // dewpoint
-                `${temp_dp.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`,
-                // wind
-                `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
-                    + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : ""),
-                // cloud_cover
-                `${cloud_cover}%`,
-                // visibility
-                `${visibility.toFixed(2)} <abbr title="Miles">mi.</abbr>`,
-                // pop
-                `${pop}%`,
-                // pod
-                pod,
-                // no sunrise
-                // no sunset
-                // precip (TODO: Return "None" if nothing expected)
-                Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
-                    let label = "";
-                    if(k.startsWith("rain")){label += "💧";}
-                    if(k.startsWith("snow")){label += "❄️";}
-                    label += " ";
-                    //if(k.endsWith("1h")){label += "last hour";}
-                    //if(k.endsWith("3h")){label += "expected amount";}
-                    return `<strong>${label} expected:</strong> ${v.toFixed(2)}<abbr title="inches">in.</abbr>`;
-                }).join("<br>")
+                {
+                    "name"  : "Day",
+                    "class" : "header",
+                    "value" : dotw
+                },
+                {
+                    "name"  : "Time",
+                    "class" : "header",
+                    "value" : time
+                },
+                {
+                    "name"  : "Conditions",
+                    "class" : "data",
+                    "value" : `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`
+                },
+                {
+                    "name"  : "Temperature",
+                    "class" : "data",
+                    "value" : this.temperatureFormat(temperature)
+                },
+                {
+                    "name"  : "Feels Like",
+                    "class" : "data",
+                    "value" : this.temperatureFormat(feels_like)
+                },
+                {
+                    "name"  : "Pressure",
+                    "class" : "data",
+                    "value" : `${this.pressure_inHgFormat(pressure_inHg)}<br/><small>(${this.pressure_hPaFormat(pressure_hPa)})</small>`
+                },
+                {
+                    "name"  : "Humidity",
+                    "class" : "data",
+                    "value" : this.percentFormat(humidity)
+                },
+                {
+                    "name"  : "Dewpoint Temperature",
+                    "class" : "data",
+                    "value" : this.temperatureFormat(temp_dp)
+                },
+                {
+                    "name"  : "Wind Direction and Speed",
+                    "class" : "data",
+                    "value" : `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
+                                + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : "")
+                },
+                {
+                    "name"  : "Cloud Cover",
+                    "class" : "data",
+                    "value" : this.percentFormat(cloud_cover)
+                },
+                {
+                    "name"  : "Visibility",
+                    "class" : "data",
+                    "value" : this.distanceFormat(visibility)
+                },
+                {
+                    "name"  : "P.O.P.",
+                    "class" : "data",
+                    "value" : this.percentFormat(pop)
+                },
+                {
+                    "name"  : "Precipitation",
+                    "class" : "data",
+                    "value" : Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
+                                let label = "";
+                                if(k.startsWith("rain")){label += "💧";}
+                                if(k.startsWith("snow")){label += "❄️";}
+                                return `<strong>${label} expected:</strong> ${this.precipFormat(v)}`;
+                            }).join("<br>")
+                }
+
             ];
+
             values.forEach((value) => {
+                let classes = "";   // add classes to our field value cells
+                if(value.class === "header"){
+                    classes += "col_name";
+                }
+                else if(value.class === "data"){
+                    if(pod === "d"){
+                        classes += "pod_day";
+                    }else if(pod === "n"){
+                        classes += "pod_night";
+                    }
+                }
+                // TODO: classes for day and time headers
                 soon.append(
                     //this.fieldName(field.name,field.title)
-                    this.fieldValue(value)
+                    this.fieldValue(value.value,classes)
                 );
             });
         });

@@ -10,6 +10,9 @@
     background: #0c75bc;
     color: #fff;
     text-shadow: var(--tsh);
+    /* YES! We can do this! */
+    position: sticky;
+    left: 0;
 }
 
 .field_value {
@@ -19,8 +22,23 @@
 
 /* The plan here is to put the day of the week in one of these columns in our forecast */
 .col_name {
+    border: 1px groove #333;
     font-weight: bold;
     text-align: center;
+    background: #0c75bc;
+    color: #fff;
+    text-shadow: var(--tsh);
+}
+
+/* pod = d */
+.pod_day {
+    background: hsl(200,100%,50%); /* #0c75bc; */
+    color: #efefef;
+}
+/* pod = n */
+.pod_night {
+    background: hsl(200,25%,50%);   /* Like .pod_day, but less saturated */
+    color: #efefef;
 }
 
 /* TODO: Rename to just #weather later */
@@ -70,13 +88,15 @@
                         [cloud_cover] 25px
                         [visibility] 25px
                         [pop] 25px
-                        [pod] 25px
+                        /* [pod] 25px */    /* pod is kind of useless like this. Makes more sense for styling. */
                         /* [sunrise] 25px
                         [sunset] 25px */ 
                         [precip] 50px
                         [end];
-    border: 1px solid #080;
+    border: 1px inset #333;
+    /*box-shadow: 5px 5px 3px 5px #ccc inset; */ /* TODO: Is there a way that the box shadow can hover above grid items?  */
     grid-column-gap: 3px;
     grid-row-gap: 3px;
     overflow-x: auto;
+    /* TODO: Format scrollbar */
 }
