@@ -1,3 +1,7 @@
+---
+marp: true
+---
+
 # ⛈️ The Weather Dashboard ⛈️
 
 <div style="text-align: center;">
@@ -40,7 +44,8 @@ THEN I am again presented with current and future conditions for that city
   - [x] TODO: What if there are cities with the same name in multiple locations? (e.g. how many states have a Springfield?)
     - We could add a `<datalist>` element with auto-generated `<options>`. But how would that work?
       - Not needed.
-- [ ] Display the current conditions of the city searched
+- [x] Display the current conditions of the city searched
+  - Unless `localStorage` still holds on to that info.
 - [ ] Display the five day forecast that shows that displays the date, an icon representation of weather conditions, the temperature, wind speed, and humidity.
   - Not sure if it shows predicted humidity, but "percent of precipitation" ("POP") is more useful.
     - There is a POP
@@ -73,8 +78,26 @@ THEN I am again presented with current and future conditions for that city
         - Syracuse
         - Tampa
         - Washington DC
-- [ ] Github Pages
-- [ ] Screenshot
+- [x] Github Pages
+- [x] Screenshot
+
+Some extras
+- Dewpoint is calculated (sort of) - The Magus Formula is used to calculate the dewpoint temperature. Unfortunately, I must have a bad version of it because the coefficients don't seem to match. The formula is correct.
+
+$$
+\begin{aligned}
+\gamma(T,RH) &= \ln\left(\frac{RH}{100}\right) + \frac{\beta \cdot T}{\lambda + T} \\
+T_{dp} &= \frac{\lambda \cdot \gamma(T,RH)}{\beta - \gamma(T,RH)}
+\end{aligned}
+$$
+
+* $T$ is the air temperature (converted to degrees Celsius)
+* $RH$ is the relative humidity between 0% and 100%
+* $T_{dp}$ is the dewpoint temperature (converted from degrees Celsius back to degrees Fahrenheit)
+* $\lambda$ (sometimes denoted $c$) is a constant in degrees Celsius
+* $\beta$ (sometimes denoted $b$) is a constant
+
+There's supposed to be this other formula with a variable called $\alpha$ (in hectopascals (hPa) or millibars (mbar)). I'll need to look into that later.
 
 > Note: I know the instructor probably want me to use Bootstrap for stylesheets on this project, however I seriously want to apply my own stylesheets here. It depends honestly. I want that 90s Weather Channel aesthetic.
 
