@@ -1,12 +1,13 @@
 # ⛈️ The Weather Dashboard ⛈️
 
 <div style="text-align: center;">
+
 ![The Weather Dashboard](./assets/images/The_Weather_Dashboard.png)
 
 **Network Decay? What Network Decay?**
 </div>
 
-<!-- screenshot goes here -->
+[![Screenshot](./assets/images/screenshot.png)](https://jrcharney.github.io/the-weather-dashboard/)
 
 Homework Challenge 6, Due November 21.
 
