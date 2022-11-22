@@ -6,10 +6,8 @@
 @import url("nav.css");
 @import url("footer.css");
 @import url("twc.css");
+@import url("tabbox.css");
 
-/* Note: we need to use display. If we use visibility, it will still show where the this is we hid. */
-.show {display: block;}
-.hide {display: none;}
 
 .center {
     text-align: center;
@@ -137,31 +135,3 @@
     cursor: pointer;
 }
 
-.tab {
-    border: 1px solid #000;
-    width: 30px;
-    text-align: center;
-    cursor: pointer;
-    padding: 5px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #fff;
-    margin-bottom: 0;
-}
-
-.tab:hover {
-    background-color: #fcc;
-}
-
-.selected {
-    font-weight: bold;
-}
-
-.panel {
-    /* display: block; */       /* Don't set this here. Let .show and .hide handle that. */
-    border: 1px solid #000;
-    width: 90%;
-    padding: 5px;
-    margin-bottom: 0;
-    border-radius: 5px;
-}

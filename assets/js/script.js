@@ -47,6 +47,24 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
+const tabbar = document.querySelector(".tabbar");
+const deck   = document.querySelector(".deck");
+//const tabs   = document.querySelectorAll(".tab");
+//const panels = document.querySelectorAll(".panel");
+const tabs = Array.from(tabbar.children);
+const panels = Array.from(deck.children);
+tabs.at(0).classList.add("selected");
+panels.forEach((panel,pidx) => panel.classList.add((pidx !== 0) ? "hide_panel" : "show_panel"));
+
+tabs.forEach((tab,tidx) => tab.addEventListener("click", (ev) => panels.forEach((panel,pidx) => {
+    panel.classList.replace("show_panel","hide_panel");
+    if(pidx === tidx){
+        panel.classList.replace("hide_panel","show_panel");
+        tabs.filter((tab) => tab.classList.contains("selected"))[0].classList.remove("selected");
+        ev.target.classList.add("selected");
+    }
+})));
+
 const wx = new Weather();
 
 const query      = document.querySelector("#query");
@@ -55,13 +73,16 @@ const geo        = document.querySelector("#geo");
 const weather    = document.querySelector("#weather");
 const forecast   = document.querySelector("#forecast");
 
+const tabbox     = document.querySelectorAll(".tabbox")[0];
 const current    = document.querySelector("#current");
 //current.style.display = "none";
 
 console.log(getWeather);
 getWeather.disabled = true;
+tabbox.style.display = "none";
 
 async function getWx(){
+    tabbox.style.display = "block";
     await wx.getGeocode();  // Still need to calculate this
     //geo.innerHTML      = await wx.getGeocode();   // we just don't need to display it any more
     //weather.innerHTML  = await wx.getWeather();   // or this

@@ -218,12 +218,12 @@ export class Weather {
      * Borrowed this formula from http://irtfweb.ifa.hawaii.edu/~tcs3/tcs3/Misc/Dewpoint_Calculation_Humidity_Sensor_E.pdf 
      */
     dewpoint(temp_f,rh){
-        console.log("dewpoint")
+        //console.log("dewpoint")
         // We need to convert our fahrenheit temperature to celsius for this formula to work.
         let temp_c = this.temp_f_to_c(temp_f);
-        console.log(temp_f);
-        console.log(rh);
-        console.log(temp_c);
+        //console.log(temp_f);
+        //console.log(rh);
+        //console.log(temp_c);
         /*
         // The Magnus formula relates the saturation vapor pressure and dewpoint.
         // For the range from -45 to 60 degrees C, the Magnus parameters are
@@ -246,9 +246,9 @@ export class Weather {
         let temp_dp = (lambda * gamma) / (beta - gamma); 
 
         // Back to "'Merica Units".
-        console.log(temp_dp);
+        //console.log(temp_dp);
         let temp_dp_f = this.temp_c_to_f(temp_dp);
-        console.log(temp_dp_f);
+        //console.log(temp_dp_f);
         return temp_dp_f;
     }
 
@@ -308,6 +308,15 @@ export class Weather {
         return field_value;
     }
 
+    /* We need to do this everytime we do a new search request */
+    removeChildren(el){
+        console.log("removeChildren");
+        while(el.lastElementChild){
+            el.removeChild(el.lastElementChild);
+        }
+        console.log(el.hasChildNodes());
+    }
+
     /* TODO: find out what the weather icons mean and see if we can name our weather icons that */
     // TODO: windchill
     // TODO: heat index
@@ -325,7 +334,7 @@ export class Weather {
         localStorage.setItem("timezone",timezone);
         let obs_time   = this.time_to_hhmm(timestamp);
         // TODO: Use .match() instead of .join() so we can use "with" and "and" to describe weather condtions.
-        console.log(weather.weather);
+        //console.log(weather.weather);
         let conditions = Object.values(weather.weather).map((wx) => `${wx.main}`).join(",");    // join multiple weather conditions if they exist.
         let icon = weather.weather[0].icon;
         let icon_file = `https://openweathermap.org/img/wn/${icon}.png`;
@@ -458,6 +467,13 @@ export class Weather {
                 value: sunset
             },
         ];
+
+        if(current.hasChildNodes()){
+            this.removeChildren(current);
+        }
+
+        console.log(current.hasChildNodes());
+
         fields.forEach((field) => {
             current.append(
                 this.fieldName(field.name,field.title),
@@ -581,6 +597,11 @@ export class Weather {
             */
             },
         ];
+
+        if(soon.hasChildNodes()){
+            this.removeChildren(soon);
+        }
+
         fields.forEach((field) => {
             soon.append(
                 this.fieldName(field.name,field.title)
@@ -600,7 +621,7 @@ export class Weather {
             //let obs_time   = this.time_to_hhmm(timestamp);
             
             // TODO: Use .match() instead of .join() so we can use "with" and "and" to describe weather condtions.
-            console.log(item.weather);
+            //console.log(item.weather);
             let conditions    = Object.values(item.weather).map((wx) => `${wx.main}`).join(",");    // join multiple weather conditions if they exist.
             let icon          = item.weather[0].icon;
             let icon_file     = `https://openweathermap.org/img/wn/${icon}.png`;

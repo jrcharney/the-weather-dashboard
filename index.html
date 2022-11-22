@@ -23,6 +23,8 @@
         <ul>
             <li><a href="./pages/about.html" title="About this project">About</a></li>
             <li><a href="./pages/links.html" title="A whole bunch of weather links!">Links</a></li>
+            <li><a href="./pages/notes.html" title="Important notes about this project">⚠️Notes</a></li>
+            
         </ul>
     </nav>
     <main>
@@ -54,13 +56,6 @@
                     * Don't sue us!
                     * Trammel Sparks!
                 -->
-                <!-- TODO: Collapse blockquotes -->
-                <blockquote>
-                    <p>Note: This is a homework assignment/fan-made project! Don't sue us! Rely on the real deal, or better yet, visit the <a href="https://www.weather.gov/">National Weather Service</a> and learn how to set up emergency alerts on your phone as part of Weather-Ready Nation! Visit <a href="https://www.weather.gov/wrn/">weather.gov/wrn/</a> for more details!</p>
-                </blockquote>
-                <blockquote>
-                    <p>Second note: My calculations for dewpoint may be off because I can't seem to find a good Magus Formula for calculating dewpoint temperatures. So don't trust that yet.</p>
-                </blockquote>
             </div>
             <div class="card-body">
                 <div class="center round">
@@ -71,13 +66,25 @@
                     <button id="getWeather" name="getWeather" tabindex="0">Get Weather</button>
                 </div>
                 <!-- <pre id="geo"></pre><!-- Use pre for now, then change it to div later -->
-                <h2>Current Condtions</h2>
-                <!-- <pre id="weather"></pre><!-- TODO: flexbox -->
-                <div id="current"></div>
-                
-                <h2>Five-day Three-hour Forecast</h2>
-                <!-- <pre id="forecast"></pre><!-- TODO: grid -->
-                <div id="soon"></div>
+                <!-- TODO: Hide this until results become available -->
+                <div class="tabbox">
+                    <div class="tabbar">
+                        <div class="tab" title="Current Conditions">Current</div>
+                        <div class="tab" title="Five-day Three-hour Forecast">Forecast</div>
+                    </div>
+                    <div class="deck">
+                        <div class="panel">
+                            <h2>Current Condtions</h2>
+                            <!-- <pre id="weather"></pre> -->
+                            <div id="current"></div>            
+                        </div>
+                        <div class="panel">
+                            <h2>Five-day Three-hour Forecast</h2>
+                            <!-- <pre id="forecast"></pre> -->
+                            <div id="soon"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
             </div>

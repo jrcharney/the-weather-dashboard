@@ -1,0 +1,47 @@
+/* File: assets/css/tabbox.css 
+ * Info: The CSS styles for using tabs and panels
+ */
+
+.tabbox {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.tabbar {
+    display: flex;
+}
+
+.tab {
+    border: 1px solid #000;
+    min-width: 30px;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 0;
+}
+
+.tab:hover {
+    background-color: #fcc;
+}
+
+.selected {
+    font-weight: bold;
+}
+
+/* Note: we need to use display. If we use visibility, it will still show where the this is we hid. */
+.show_panel {display: block;}
+.hide_panel {display: none;}
+
+
+.panel {
+    /* display: block; */       /* Don't set this here. Let .show and .hide handle that. */
+    border: 1px solid #000;
+    width: 90%;
+    padding: 5px;
+    margin-bottom: 0;
+    border-radius: 5px;
+}
