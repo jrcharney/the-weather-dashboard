@@ -11,6 +11,22 @@
 .show {display: block;}
 .hide {display: none;}
 
+.center {
+    text-align: center;
+}
+
+.round {
+    background-color: #0c75bc;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    height: 30px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: var(--bsh);
+}
+
 /*
 #testing {
     background: #fcc;
@@ -57,7 +73,7 @@
     min-height: 480px;
     background: #fff;
     color: #000;
-    box-shadow: 3px 3px 5px var(--bs);
+    box-shadow: var(--bsh);
     border-radius: 5px;
     padding: 5px;
     margin-left: auto;

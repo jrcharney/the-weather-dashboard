@@ -54,8 +54,9 @@
     padding: 3px;
     display: grid;
     grid-auto-flow: column; /* This will allow us to enter our data from top to bottom with columns! */
-    grid-template-columns: [key] 150px repeat(40, [value] 200px) [end];
-    grid-template-rows: [dotw] 50px
+    grid-template-columns: [key] 250px repeat(40, [value] 200px) [end];
+    grid-template-rows: [dotw] 25px
+                        [time] 25px
                         [conditions] 100px 
                         [temperature] 50px
                         [feels_like] 50px

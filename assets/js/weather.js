@@ -493,6 +493,10 @@ export class Weather {
                 title: "Day of the week of forecast"
                 //value: time
             },
+            {
+                name: "Time",
+                title: "Time of the forecast"
+            },
             // TODO: need to get GOOD weather icon!
             {
                 name: "Conditions",
@@ -616,7 +620,7 @@ export class Weather {
             let wind_deg      = item.wind.deg;
             let wind_dir      = this.direction(wind_deg);    // shows wind in cardinal directions
             let wind_speed    = Math.round(item.wind.speed);       // Measured in MPH
-            let wind_gust     = (Object.keys(item.wind).includes("gust")) ? item.wind.gust : ""; // NOTE: This doesn't appear all the time
+            let wind_gust     = (Object.keys(item.wind).includes("gust")) ? Math.round(item.wind.gust) : ""; // NOTE: This doesn't appear all the time
             let cloud_cover   = item.clouds.all;       // Cloudiness in percent, so just add a % sign.
             let pop           = item.pop;              // Percent of precipitation, add a % sign.
             let pod           = item.sys.pod;          // Part of the Day. n = night, d = day
@@ -647,7 +651,9 @@ export class Weather {
 
             let values = [
                 // dotw
-                `${dotw}<br>${time}`,       // TODO: .col_name!
+                dotw,           // TODO: .col_name!
+                // time
+                time,           // TODO: .col_name!
                 // conditions
                 `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`,
                 // temperature
@@ -659,7 +665,7 @@ export class Weather {
                 // humidity
                 `${humidity}%`,
                 // dewpoint
-                `<span title="LOOK AT THAT DEWPOINT!">${temp_dp.toFixed(1)}</span><abbr title="degrees Fahrenheit">&deg;F</abbr>`,
+                `${temp_dp.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`,
                 // wind
                 `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
                     + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : ""),
@@ -679,9 +685,9 @@ export class Weather {
                     if(k.startsWith("rain")){label += "💧";}
                     if(k.startsWith("snow")){label += "❄️";}
                     label += " ";
-                    if(k.endsWith("1h")){label += "last hour";}
-                    if(k.endsWith("3h")){label += "last 3 hours";}
-                    return `<strong>${label}:</strong> ${v.toFixed(2)}<abbr title="inches">in.</abbr>`;
+                    //if(k.endsWith("1h")){label += "last hour";}
+                    //if(k.endsWith("3h")){label += "expected amount";}
+                    return `<strong>${label} expected:</strong> ${v.toFixed(2)}<abbr title="inches">in.</abbr>`;
                 }).join("<br>")
             ];
             values.forEach((value) => {

@@ -54,6 +54,7 @@
                     * Don't sue us!
                     * Trammel Sparks!
                 -->
+                <!-- TODO: Collapse blockquotes -->
                 <blockquote>
                     <p>Note: This is a homework assignment/fan-made project! Don't sue us! Rely on the real deal, or better yet, visit the <a href="https://www.weather.gov/">National Weather Service</a> and learn how to set up emergency alerts on your phone as part of Weather-Ready Nation! Visit <a href="https://www.weather.gov/wrn/">weather.gov/wrn/</a> for more details!</p>
                 </blockquote>
@@ -62,13 +63,19 @@
                 </blockquote>
             </div>
             <div class="card-body">
-                <input id="api_key" name="appid" type="hidden" value="3754e1f6d2f999d551ac812ebcc95206" >
-                <!-- Added tabindex for focus -->
-                <input id="query" name="query" type="text" placeholder="Enter your location" value="" tabindex="0" >
-                <button id="getWeather" name="getWeather" tabindex="0">Get Weather</button>
-                <pre id="geo"></pre><!-- Use pre for now, then change it to div later -->
+                <div class="center round">
+                    <!-- TODO: Put this in a form -->
+                    <input id="api_key" name="appid" type="hidden" value="3754e1f6d2f999d551ac812ebcc95206" >
+                    <!-- Added tabindex for focus -->
+                    <input id="query" name="query" type="text" placeholder="Enter your location" value="" tabindex="0" >
+                    <button id="getWeather" name="getWeather" tabindex="0">Get Weather</button>
+                </div>
+                <!-- <pre id="geo"></pre><!-- Use pre for now, then change it to div later -->
+                <h2>Current Condtions</h2>
                 <!-- <pre id="weather"></pre><!-- TODO: flexbox -->
                 <div id="current"></div>
+                
+                <h2>Five-day Three-hour Forecast</h2>
                 <!-- <pre id="forecast"></pre><!-- TODO: grid -->
                 <div id="soon"></div>
             </div>

@@ -42,7 +42,7 @@ THEN I am again presented with current and future conditions for that city
       - Not needed.
 - [x] Display the current conditions of the city searched
   - Unless `localStorage` still holds on to that info.
-- [ ] Display the five day forecast that shows that displays the date, an icon representation of weather conditions, the temperature, wind speed, and humidity.
+- [x] Display the five day forecast that shows that displays the date, an icon representation of weather conditions, the temperature, wind speed, and humidity.
   - Not sure if it shows predicted humidity, but "percent of precipitation" ("POP") is more useful.
     - There is a POP
   - Also, see if we can download our own weather icons. (Might be some long-term plan. What would The Weather Chazz do?)
@@ -77,8 +77,10 @@ THEN I am again presented with current and future conditions for that city
 - [x] Github Pages
 - [x] Screenshot
 
-Some extras
-- Dewpoint is calculated (sort of) - The Magus Formula is used to calculate the dewpoint temperature. Unfortunately, I must have a bad version of it because the coefficients don't seem to match. The formula is correct.
+## Some extras
+
+### Dewpoint is calculated (sort of)
+The Magus Formula is used to calculate the dewpoint temperature. Unfortunately, I must have a bad version of it because the coefficients don't seem to match. The formula is correct.
 
 $$
 \begin{aligned}
@@ -94,6 +96,14 @@ $$
 * $\beta$ (sometimes denoted $b$) is a constant
 
 There's supposed to be this other formula with a variable called $\alpha$ (in hectopascals (hPa) or millibars (mbar)). I'll need to look into that later.
+
+### CSS Grid!
+
+CSS Grid has made the latter part of this project easy!
+
+In the 5 day forecast, the flow of the grid is from top-to-bottom instead of left-to-right!
+
+Not bad for my first project using CSS Grid.
 
 > Note: I know the instructor probably want me to use Bootstrap for stylesheets on this project, however I seriously want to apply my own stylesheets here. It depends honestly. I want that 90s Weather Channel aesthetic.
 
