@@ -42,8 +42,8 @@ export class Weather {
     async jsonResponse(url){
         const res = await fetch(url);
         const json = await res.json();
-        console.log("jsonResponse");
-        console.log(json);
+        //console.log("jsonResponse");
+        //console.log(json);
         return json;
     }
 
@@ -55,8 +55,8 @@ export class Weather {
      */
     async jsonString(data,readable=false){
         //const data = await this.jsonResponse(url);
-        console.log("jsonString");
-        console.log(data);
+        //console.log("jsonString");
+        //console.log(data);
         if(readable){
             return JSON.stringify(data,null,2);
         }else{
@@ -105,8 +105,8 @@ export class Weather {
                 break;
         }
         let url = `${this.#base}/${str}&appid=${this.#params.appid}`;
-        console.log("getGeocodeURL");
-        console.log(url);
+        //console.log("getGeocodeURL");
+        //console.log(url);
         return url;
     }
 
@@ -120,20 +120,20 @@ export class Weather {
         localStorage.setItem('data',JSON.stringify(data));
         //const data = await this.jsonString(url,readable);
         //[lat, lon] = data;
-        console.log("getGeocode");
-        console.log(data);
+        //console.log("getGeocode");
+        //console.log(data);
         localStorage.setItem('name',data.name);
         localStorage.setItem('geo',JSON.stringify({ "lat" : data.lat, "lon" : data.lon }));
         //localStorage.setItem('lat',data.lat);
         //localStorage.setItem('lon',data.lon);
         //console.log(data.lat);
         //console.log(data.lon);
-        console.log(localStorage.getItem('location'));
+        //console.log(localStorage.getItem('location'));
         //console.log(localStorage.getItem('lat'));
         //console.log(localStorage.getItem('lon'));
-        console.log(localStorage.getItem("data"));
-        console.log(localStorage.getItem("name"));
-        console.log(localStorage.getItem("geo"));
+        //console.log(localStorage.getItem("data"));
+        //console.log(localStorage.getItem("name"));
+        //console.log(localStorage.getItem("geo"));
         //return data;
         const geo = JSON.parse(localStorage.getItem("geo"));
         return await `${geo.lat},${geo.lon}`;
@@ -146,13 +146,13 @@ export class Weather {
         const str = Object.entries(geo).map(([k,v]) => `${k}=${v}`).join("&");
         const url = `${this.#base}/${this.#path.data.weather}?${str}&${this.getParams()}`;
 
-        console.log("getWeatherURL");
-        console.log(url);
+        //console.log("getWeatherURL");
+        //console.log(url);
         return url;
     }
     
     async getWeather(){
-        console.log("getWeather");
+        //console.log("getWeather");
         const url     = await this.getWeatherURL();
         const weather = await this.jsonResponse(url);
         return this.jsonString(weather,true);
@@ -160,18 +160,18 @@ export class Weather {
 
     async getForecastURL(){
         const geo = await JSON.parse(localStorage.getItem("geo"));
-        console.log("getForecast");
+        //console.log("getForecast");
         //console.log(geo.lat);
         //console.log(geo.lon);
         const str = Object.entries(geo).map(([k,v]) => `${k}=${v}`).join("&");
         const url = `${this.#base}/${this.#path.data.forecast}?${str}&${this.getParams()}`;
-        console.log("getForecastURL");
-        console.log(url);
+        //console.log("getForecastURL");
+        //console.log(url);
         return url;
     }
 
     async getForecast(){
-        console.log("getForecast");
+        //console.log("getForecast");
         const url      = await this.getForecastURL();
         const forecast = await this.jsonResponse(url);
         return this.jsonString(forecast,true);
@@ -310,18 +310,18 @@ export class Weather {
 
     /* We need to do this everytime we do a new search request */
     removeChildren(el){
-        console.log("removeChildren");
+        //console.log("removeChildren");
         while(el.lastElementChild){
             el.removeChild(el.lastElementChild);
         }
-        console.log(el.hasChildNodes());
+        //console.log(el.hasChildNodes());
     }
 
     /* TODO: find out what the weather icons mean and see if we can name our weather icons that */
     // TODO: windchill
     // TODO: heat index
     async processWeather(where){
-        console.log("processWeather");
+        //console.log("processWeather");
         const url     = await this.getWeatherURL();
         const weather = await this.jsonResponse(url);
         //let location = `Currently in ${weather.name}`;  // NOTE: weather.name has been deprecated. TODO: get it from our geo data
@@ -472,7 +472,7 @@ export class Weather {
             this.removeChildren(current);
         }
 
-        console.log(current.hasChildNodes());
+        //console.log(current.hasChildNodes());
 
         fields.forEach((field) => {
             current.append(
@@ -485,7 +485,7 @@ export class Weather {
     
     async processForecast(el){
         // TODO: we will likely need a side column for the items below and a header that lists the day names.
-        console.log("processForecast");
+        //console.log("processForecast");
         const url     = await this.getForecastURL();
         const weather = await this.jsonResponse(url);
 

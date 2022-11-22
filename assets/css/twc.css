@@ -7,7 +7,9 @@
     border: 1px groove #333;
     font-weight: bold;
     padding: 3px;
-    background: #ccc;
+    background: #0c75bc;
+    color: #fff;
+    text-shadow: var(--tsh);
 }
 
 .field_value {
@@ -27,6 +29,7 @@
     padding: 3px;
     display: grid;
     /* NOTE: grid-auto-flow: row. In the next table, it will go the other way */
+    /* TODO: Swtich from px to em? */
     grid-template-columns: [key] 0.25fr [value] 1fr [end];
     grid-template-rows: [location] 25px 
                         [obs_time] 25px 

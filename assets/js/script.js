@@ -77,7 +77,7 @@ const tabbox     = document.querySelectorAll(".tabbox")[0];
 const current    = document.querySelector("#current");
 //current.style.display = "none";
 
-console.log(getWeather);
+//console.log(getWeather);
 getWeather.disabled = true;
 tabbox.style.display = "none";
 
