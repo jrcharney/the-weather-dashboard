@@ -2,6 +2,7 @@
  * File: assets/js/weather.js
  * Info: An object-oriented version of our weather data.
  */
+
 export class Weather {
     // Private
     #country = "us";
@@ -40,9 +41,9 @@ export class Weather {
      * @returns {object}
      */
     async jsonResponse(url){
+        //console.log("jsonResponse");
         const res = await fetch(url);
         const json = await res.json();
-        //console.log("jsonResponse");
         //console.log(json);
         return json;
     }
@@ -63,8 +64,16 @@ export class Weather {
             return JSON.stringify(data);
         }
     }
-    
+
+    /**
+     * @function getGeocodeURL
+     * @description Using a search query field, build a URL to get our geocode data from the OpenWeatherData API.
+     * @returns {string}
+     */
     getGeocodeURL(){
+        // Because this happens first, this function is not asynchronous
+        //console.log("getGeocodeURL");
+        // TODO: We should probably write this line better
         const query = document.querySelector("#query").value.split(/\s*,\s*/);
         let str;
         let q_params;
@@ -105,12 +114,17 @@ export class Weather {
                 break;
         }
         let url = `${this.#base}/${str}&appid=${this.#params.appid}`;
-        //console.log("getGeocodeURL");
         //console.log(url);
         return url;
     }
 
-    async getGeocode(readable=false){
+    /**
+     * @function getGeocode
+     * @async
+     * @description Get our geocode data from the OpenWeatherMap API.
+     * @returns {string}
+     */
+    async getGeocode(){
         const url = this.getGeocodeURL();
         let data = await this.jsonResponse(url);
         if(Array.isArray(data)){
@@ -141,38 +155,62 @@ export class Weather {
         return await `${geo.lat},${geo.lon}`;
     }
 
+    /**
+     * @function getWeatherURL
+     * @async
+     * @description using geo coordinates stored from localStorage, build the URL string to get the current conditions from the OpenWeatherMap API.
+     * @returns {string}
+     */
     async getWeatherURL(){
+        //console.log("getWeatherURL");
         const geo = await JSON.parse(localStorage.getItem("geo"));
         //console.log(geo.lat);
         //console.log(geo.lon);
         const str = Object.entries(geo).map(([k,v]) => `${k}=${v}`).join("&");
         const url = `${this.#base}/${this.#path.data.weather}?${str}&${this.getParams()}`;
-
-        //console.log("getWeatherURL");
         //console.log(url);
         return url;
     }
-    
+
+    /**
+     * @function getWeather
+     * @async
+     * @description get the current conditions data as a JSON string
+     * @returns {string}
+     */
     async getWeather(){
+        // TODO: Do we sill need this?
         //console.log("getWeather");
         const url     = await this.getWeatherURL();
         const weather = await this.jsonResponse(url);
         return this.jsonString(weather,true);
     }
 
+    /**
+     * @function getForecastURL
+     * @async
+     * @description using geo cooridinates from localStorage, build the URL string to get the forecast from the OpenWeatherMap API.
+     * @returns {string}
+     */
     async getForecastURL(){
+        //console.log("getForecastURL");
         const geo = await JSON.parse(localStorage.getItem("geo"));
-        //console.log("getForecast");
         //console.log(geo.lat);
         //console.log(geo.lon);
         const str = Object.entries(geo).map(([k,v]) => `${k}=${v}`).join("&");
         const url = `${this.#base}/${this.#path.data.forecast}?${str}&${this.getParams()}`;
-        //console.log("getForecastURL");
         //console.log(url);
         return url;
     }
 
+    /**
+     * @function getForecast
+     * @async
+     * @description Get the forecast data as a JSON string
+     * @returns {string}
+     */
     async getForecast(){
+        // TODO: Can we still use this?
         //console.log("getForecast");
         const url      = await this.getForecastURL();
         const forecast = await this.jsonResponse(url);
@@ -180,8 +218,14 @@ export class Weather {
 
     }
 
-    /* I actually pulled this block of code from an old Ruby program I wrote about a decade ago. */
+    /**
+     * @function direction
+     * @description Get the cardinal wind direction
+     * @param {number} angle 
+     * @returns {string}
+     */
     direction(angle){
+        /* Fun fact: I actually pulled this block of code from an old Ruby program I wrote about a decade ago. */
         let dir;
         //if(    angle >= 348.75 || angle < 11.25  ) then "N"
         if(      angle >=  11.25 && angle <  33.75 ){ dir = "NNE"; }
@@ -203,12 +247,26 @@ export class Weather {
         return dir;
     }
 
+    /**
+     * @function temp_f_to_c
+     * @description Convert temperature from Fahrenheit to Celsius
+     * @param {number} temp_f 
+     * @returns {number}
+     */
     temp_f_to_c(temp_f){
         return (temp_f - 32) * (5.0/9.0);
     }
+
+    /**
+     * @function temp_c_to_f
+     * @description Convert temperature from Celsius to Fahrenheit
+     * @param {number} temp_c 
+     * @returns {number}
+     */
     temp_c_to_f(temp_c){
         return (temp_c * (9.0 / 5.0)) + 32;
     }
+
     /**
      * @function dewpoint Calculate the dewpoint temperature from the air temperature and relative humidity
      * @param {*} temp temperature
@@ -254,10 +312,22 @@ export class Weather {
         return temp_dp_f;
     }
 
+    /**
+     * @function pressure_to_inHg
+     * @description Convert barometric pressure from hectopascals to inches of mercury
+     * @param {number} pressure_hPa 
+     * @returns {number}
+     */
     pressure_to_inHg(pressure_hPa){
         return pressure_hPa / 33.864;   // 1 hPa = 1 / 33.86388667 inHg = 0.02953 inHg
     }
 
+    /**
+     * @function precip_to_in
+     * @description Convert precipitation amounts from millimeters to inches
+     * @param {number} precip_mm 
+     * @returns {number}
+     */
     precip_to_in(precip_mm){
         return precip_mm / 25.4;        // 1 inch = 25.4 mm exactly!
     }
@@ -267,13 +337,25 @@ export class Weather {
     // There are exactly 25.4 millimeters in 1 inch (1 in = 25.4 mm)
     // 1 meter has 1000 millimeters (1 mm = 0.001 m)
     // 1 kilometer has 1000 meters (1 m = 0.001 km)
-    // It turns out visiblity was in meters, so we need to divide by 1609.344
-    vis_to_mi(vis_km){
-        return vis_km / 1609.344;
+    // It turns out visibility was in meters, so we need to divide by 1609.344
+    /**
+     * @function vis_to_mi
+     * @description Convert visibility distance from meters to miles
+     * @param {number} vis_m 
+     * @returns {number}
+     */
+    vis_to_mi(vis_m){
+        return vis_m / 1609.344;
     }
 
-    /* Turns out we don't need to adjust for time zones */
+    /**
+     * @function time_to_hhmm
+     * @description Covert a timestamp in seconds to hours and minutes. (Note: all times will return the local time of the end user not of the location of the time.)
+     * @param {number} stamp 
+     * @returns {string}
+     */
     time_to_hhmm(stamp){
+        // Note: We don't need to add the timezone to our timestamp. Temporal can't get the JavaScript soon enough!
         const date = new Date(stamp * 1000);
         let h = date.getHours()%12;
         if(h === 0){h = 12;}
@@ -283,6 +365,12 @@ export class Weather {
         return `${hh}:${mm}${ap}`;
     }
 
+    /**
+     * @function getDotW
+     * @description Get the day of the week
+     * @param {number} stamp 
+     * @returns {string}
+     */
     getDotW(stamp){
         const date = new Date(stamp * 1000);
         const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -290,31 +378,81 @@ export class Weather {
         return dotw;
     }
 
+    /**
+     * @function temperatureFormat
+     * @description Format our temperature
+     * @param {number} temp 
+     * @returns {string}
+     */
     temperatureFormat(temp){
+        // TODO: This function should go in a locale class
         return `${temp.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`;
     }
 
+    /**
+     * @function pressure_inHgFormat
+     * @description Barometric pressure format when presented with inches of mercury
+     * @param {number} pressure_inHg 
+     * @returns {string}
+     */
     pressure_inHgFormat(pressure_inHg){
+        // TODO: This function should go in a locale class
         return `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr>`;
     }
 
+    /**
+     * @function pressure_hPaFormat
+     * @description Barometric pressure format when presented with hectopascals/millibars
+     * @param {number} pressure_hPa 
+     * @returns {string}
+     */
     pressure_hPaFormat(pressure_hPa){
+        // TODO: This function should go in a locale class
         return `${pressure_hPa} <abbr title="millibars">mbar</abbr>`;
     }
 
+    /**
+     * @function percentFormat
+     * @description Percent format
+     * @param {number} num 
+     * @returns {string}
+     */
     percentFormat(num){
+        // Note: made this function in case I needed to apply .toFixed to a number
         return `${num}%`;
     }
 
+    /**
+     * @function distanceFormat
+     * @description Format for distances in miles.
+     * @param {number} num 
+     * @returns {string}
+     */
     distanceFormat(num){
+        // TODO: This function should go in a locale class
         return `${num.toFixed(2)} <abbr title="Miles">mi.</abbr>`;
     }
 
+    /**
+     * @function precipFormat
+     * @description Format precipitation amounts in inches.
+     * @param {number} num 
+     * @returns {string}
+     */
     precipFormat(num){
+        // TODO: This function should go in a locale class
         return `${num.toFixed(2)}<abbr title="inches">in.</abbr>`;
     }
 
+    /**
+     * @function fieldName
+     * @description Format a field_name cell for our grid
+     * @param {string} name 
+     * @param {string} title 
+     * @returns {HTMLDivElement}
+     */
     fieldName(name,title){
+        // TODO: Put this in a grid module eventually
         const field_name = document.createElement("div");
         field_name.innerHTML = name;
         field_name.classList.add("field_name");
@@ -324,7 +462,16 @@ export class Weather {
         return field_name;
     }
 
+    /**
+     * @function fieldValue
+     * @description Format a field value cell that could be used as a header or data cell for our grid
+     * @param {*} value 
+     * @param {string} classes 
+     * @param {string} title 
+     * @returns {HTMLDivElement}
+     */
     fieldValue(value,classes,title){
+        // TODO: Put this in a grid module eventually
         const field_value = document.createElement("div");
         field_value.innerHTML = value;
         field_value.classList.add("field_value");
@@ -338,8 +485,14 @@ export class Weather {
         return field_value;
     }
 
-    /* We need to do this everytime we do a new search request */
+    /**
+     * @function removeChildren
+     * @description Remove any child nodes of an element
+     * @param {HTMLElement} el 
+     */
     removeChildren(el){
+        // TODO: Put this in a grid module eventually
+        /* We need to do this everytime we do a new search request */
         //console.log("removeChildren");
         while(el.lastElementChild){
             el.removeChild(el.lastElementChild);
@@ -347,10 +500,19 @@ export class Weather {
         //console.log(el.hasChildNodes());
     }
 
-    /* TODO: find out what the weather icons mean and see if we can name our weather icons that */
-    // TODO: windchill
-    // TODO: heat index
+    /**
+     * @function processWeather
+     * @async
+     * @description Process our weather data.
+     * @param {HTMLElement} where In what element should we put this data?
+     */
     async processWeather(where){
+        // TODO: Rewrite this function to be more elegant
+        // TODO: Rewrite this method to use the same flow style that processForecast uses
+        // TODO: Extract any grid stuff to be in its own function that can be reusable.
+        // TODO: find out what the weather icons mean and see if we can name our weather icons that
+        // TODO: windchill
+        // TODO: heat index
         //console.log("processWeather");
         const url     = await this.getWeatherURL();
         const weather = await this.jsonResponse(url);
@@ -418,7 +580,7 @@ export class Weather {
         }
 
         let current = document.querySelector(where);
-        let geo = JSON.parse(localStorage.getItem("geo"));
+        let geo     = JSON.parse(localStorage.getItem("geo"));
         let fields = [
             {
                 "name"  : "Location",
@@ -521,8 +683,6 @@ export class Weather {
             this.removeChildren(current);
         }
 
-        //console.log(current.hasChildNodes());
-
         fields.forEach((field) => {
             let classes = "";   // add classes to our field value cells
             if(field.class === "header"){
@@ -544,9 +704,14 @@ export class Weather {
         
     }
 
-    
+    /**
+     * @processForecast
+     * @async
+     * @description Process our 5-day, 3-hour forecast and put in someplace.
+     * @param {HTMLElement} el In what element should we process this data? 
+     */
     async processForecast(el){
-        // TODO: we will likely need a side column for the items below and a header that lists the day names.
+        // TODO: See if we can extract any grid stuff and see if we can make it reusable.
         //console.log("processForecast");
         const url     = await this.getForecastURL();
         const weather = await this.jsonResponse(url);
@@ -559,106 +724,68 @@ export class Weather {
          * Values will need to entered in another array for each day.
          */
         const fields = [
-            /*
             {
-                name: "Location",
-                title: "Observation location",
-                value: `<span title="[${geo.lat},${geo.lon}]">${name}</span>`
-            },
-            */
-            {
-                name: "Day",
-                title: "Day of the week of forecast"
-                //value: time
+                "name"  : "Day",
+                "title" : "Day of the week of forecast"
             },
             {
-                name: "Time",
-                title: "Time of the forecast"
+                "name"  : "Time",
+                "title" : "Time of the forecast"
             },
             // TODO: need to get GOOD weather icon!
             {
-                name: "Conditions",
-                title: "Forecasted conditions"
-                //value: `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`
+                "name"  : "Conditions",
+                "title" : "Forecasted conditions"
             },
             {
-                name: "Temperature",
-                title: "Air temperature"
-                //value: `${temperature.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`
+                "name"  : "Temperature",
+                "title" : "Air temperature"
             },
             {
-                name: "Feels Like",
-                title: "The 'feels like' temperature; it should factor in wind chill and heat index",
-                //value: `${feels_like.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`
+                "name": "Feels Like",
+                "title": "The 'feels like' temperature; it should factor in wind chill and heat index"
             },
             {
-                name: "Barometric Pressure",
-                title: "The amount of atmospheric pressure",
-                //value: `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr><br/><small>(${pressure_hPa} <abbr title="millibars">mbar</abbr>)</small>`
+                "name"  : "Barometric Pressure",
+                "title" : "The amount of atmospheric pressure"
             },
             {
-                name: "Relative Humidity",
-                title: "The amount of moisture in the air",
-                //value: `${humidity}%`
+                "name"  : "Relative Humidity",
+                "title" : "The amount of moisture in the air"
             },
             {
-                name: "Dewpoint Temperature",
-                title: "The temperature at which dew forms; also determines outdoor comfort",
-                //value: `<span title="LOOK AT THAT DEWPOINT!">${temp_dp.toFixed(1)}</span><abbr title="degrees Fahrenheit">&deg;F</abbr>`
+                "name"  : "Dewpoint Temperature",
+                "title" : "The temperature at which dew forms; also determines outdoor comfort"
             },
             {
-                name: "Wind Direction and Speed",
-                title: "The direction where the wind is coming from and how fast it is going. Wind gusts will appear in parenthesis if observed.",
-                //value: `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
-                //        + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : "")
+                "name"  : "Wind Direction and Speed",
+                "title" : "The direction where the wind is coming from and how fast it is going. Wind gusts will appear in parenthesis if observed."
             },
             {
-                name: "Cloud Cover",
-                title: "a.k.a. Cloudiness; How much of the sky was covered in clouds at time of observation",
-                //value: `${cloud_cover}%`
+                "name"  : "Cloud Cover",
+                "title" : "a.k.a. Cloudiness; How much of the sky was covered in clouds at time of observation"
             },
             {
-                name: "Visibility",
-                title: "The farthest distance that can be seen",
-                //value: `${visibility.toFixed(2)} <abbr title="Miles">mi.</abbr>`
+                "name"  : "Visibility",
+                "title" : "The farthest distance that can be seen",
             },
             {
-                name: "P.O.P.",
-                title: "Percent of Precipitation, the chance of precipitation"
+                "name"  : "P.O.P.",
+                "title" : "Percent of Precipitation, the chance of precipitation"
             },
             /*
             {
-                name: "P.O.D.",
-                title: "Part of the Day (n = night, d = day)"
-            },
-            */
-            /*
-            {
-                name: "🌅Sunrise",
-                title: "Time of sunrise",
-                //value: sunrise
+                "name"  : "🌅Sunrise",
+                "title" : "Time of sunrise"
             },
             {
-                name: "🌇Sunset",
-                title: "Time of sunset",
-                //value: sunset
+                "name"  : "🌇Sunset",
+                "title" : "Time of sunset"
             },
             */
             {
-            // TODO: Should report "None" if no precip fell.
-            name: "Precipitation",
-            title: "Recorded rain or snow within the last hour or three hours.",
-            /*
-            value: Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
-                    label = "";
-                    if(k.startsWith("rain")){label += "💧";}
-                    if(k.startsWith("snow")){label += "❄️";}
-                    label += " ";
-                    if(k.endsWith("1h")){label += "last hour";}
-                    if(k.endsWith("3h")){label += "last 3 hours";}
-                    return `<strong>${label}:</strong> ${v.toFixed(2)}<abbr title="inches">in.</abbr>`;
-                }).join("<br>")
-            */
+                "name"  : "Precipitation",
+                "title" : "Recorded rain or snow within the last hour or three hours."
             },
         ];
 
@@ -677,12 +804,9 @@ export class Weather {
         //console.log(Array.isArray(weather.list));
         //console.log(weather.list);
         weather.list.forEach((item) => {
-
             let timestamp     = item.dt;            // timestamp of observation, unix UTC. Convert from timestamp
-            // TODO: Get the day of the week from item.dt!
-            let dotw = this.getDotW(timestamp);
+            let dotw          = this.getDotW(timestamp);
             let time          = this.time_to_hhmm(timestamp);
-            //let obs_time   = this.time_to_hhmm(timestamp);
             
             // TODO: Use .match() instead of .join() so we can use "with" and "and" to describe weather condtions.
             //console.log(item.weather);
@@ -805,7 +929,6 @@ export class Weather {
                                 return `<strong>${label} expected:</strong> ${this.precipFormat(v)}`;
                             }).join("<br>")
                 }
-
             ];
 
             values.forEach((value) => {
