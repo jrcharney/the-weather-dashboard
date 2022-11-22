@@ -5,6 +5,7 @@
 
 .field_name {
     border: 1px groove #333;
+    text-align: left;
     font-weight: bold;
     padding: 3px;
     background: #0c75bc;
@@ -18,6 +19,7 @@
 .field_value {
     border: 1px inset #333;
     padding: 3px;
+    text-align: center;
 }
 
 /* The plan here is to put the day of the week in one of these columns in our forecast */

@@ -388,6 +388,11 @@ export class Weather {
         let cloud_cover = weather.clouds.all;       // Cloudiness in percent, so just add a % sign.
         let sunrise     = this.time_to_hhmm(weather.sys.sunrise);      // This is in unix UTC timestamp 1669035004
         let sunset      = this.time_to_hhmm(weather.sys.sunset);       // This is in unix UTC timestamp 1669070679
+
+        // Let's format the background like with the five day.
+        // Since there is no Part of the day (POD) variable, let's use whatever our observation time is and see if it is between sunrise and sunset.
+        let pod = (weather.dt > weather.sys.sunrise && weather.dt < weather.sys.sunset ) ? "d" : "n";
+
         // NOTE: The variables below don't appear all the time
         let precip = {
             rain_1h : 0,
@@ -416,67 +421,79 @@ export class Weather {
         let geo = JSON.parse(localStorage.getItem("geo"));
         let fields = [
             {
-                name: "Location",
-                title: "Observation location",
-                value: `<span title="[${geo.lat},${geo.lon}]">${name}</span>`
+                "name"  : "Location",
+                "title" : "Observation location",
+                "class" : "header",
+                "value" : `<span title="[${geo.lat},${geo.lon}]">${name}</span>`
             },
             {
-                name: "Time",
-                title: "Time of observation",
-                value: obs_time
+                "name"  : "Time",
+                "title" : "Time of observation",
+                "class" : "header",
+                "value" : obs_time      // TODO: Time Zone
             },
             // TODO: need to get GOOD weather icon!
             {
-                name: "Conditions",
-                title: "The observed weather conditions",
-                value: `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`
+                "name"  : "Conditions",
+                "title" : "The observed weather conditions",
+                "class" : "data",
+                "value" : `<img src="${icon_file}" alt="${icon_alt}"><br>${conditions}`
             },
             {
-                name: "Temperature",
-                title: "Air temperature",
-                value: `${temperature.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`
+                "name"  : "Temperature",
+                "title" : "Air temperature",
+                "class" : "data",
+                "value" : this.temperatureFormat(temperature)
             },
             {
-                name: "Feels Like",
-                title: "The 'feels like' temperature; it should factor in wind chill and heat index",
-                value: `${feels_like.toFixed(1)}<abbr title="degrees Fahrenheit">&deg;F</abbr>`
+                "name"  : "Feels Like",
+                "title" : "The 'feels like' temperature; it should factor in wind chill and heat index",
+                "class" : "data",
+                "value" : this.temperatureFormat(feels_like)
             },
             {
-                name: "Barometric Pressure",
-                title: "The amount of atmospheric pressure",
-                value: `${pressure_inHg.toFixed(2)}<abbr title="inches of mercury">in. Hg</abbr><br/><small>(${pressure_hPa} <abbr title="millibars">mbar</abbr>)</small>`
+                "name"  : "Barometric Pressure",
+                "title" : "The amount of atmospheric pressure",
+                "class" : "data",
+                "value" : `${this.pressure_inHgFormat(pressure_inHg)}<br/><small>(${this.pressure_hPaFormat(pressure_hPa)})</small>`
             },
             {
-                name: "Relative Humidity",
-                title: "The amount of moisture in the air",
-                value: `${humidity}%`
+                "name"  : "Relative Humidity",
+                "title" : "The amount of moisture in the air",
+                "class" : "data",
+                "value" : this.percentFormat(humidity)
             },
             {
-                name: "Dewpoint Temperature",
-                title: "The temperature at which dew forms; also determines outdoor comfort",
-                value: `<span title="LOOK AT THAT DEWPOINT!">${temp_dp.toFixed(1)}</span><abbr title="degrees Fahrenheit">&deg;F</abbr>`
+                "name"  : "Dewpoint Temperature",
+                "title" : "The temperature at which dew forms; also determines outdoor comfort",
+                "class" : "data",
+                "value" : `<span title="LOOK AT THAT DEWPOINT!">${this.temperatureFormat(temp_dp)}</span>`
             },
             {
-                name: "Wind Direction and Speed",
-                title: "The direction where the wind is coming from and how fast it is going. Wind gusts will appear in parenthesis if observed.",
-                value: `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
+                "name"  : "Wind Direction and Speed",
+                "title" : "The direction where the wind is coming from and how fast it is going. Wind gusts will appear in parenthesis if observed.",
+                "class" : "data",
+                "value" : `<span title="${wind_deg}&deg;">${wind_dir}</span> <span>${wind_speed}</span> <abbr title="miles per hour">MPH</abbr>`
                         + ((wind_gust !== "") ? `<br>(<abbr title="gusting">G</abbr><span>${wind_gust}</span> <abbr title="miles per hour">MPH</abbr>)` : "")
             },
             {
-                name: "Cloud Cover",
-                title: "a.k.a. Cloudiness; How much of the sky was covered in clouds at time of observation",
-                value: `${cloud_cover}%`
+                "name"  : "Cloud Cover",
+                "title" : "a.k.a. Cloudiness; How much of the sky was covered in clouds at time of observation",
+                "class" : "data",
+                "value" : this.percentFormat(cloud_cover)
             },
             {
-                name: "Visibility",
-                title: "The farthest distance that can be seen",
-                value: `${visibility.toFixed(2)} <abbr title="Miles">mi.</abbr>`
+                "name"  : "Visibility",
+                "title" : "The farthest distance that can be seen",
+                "class" : "data",
+                "value" : this.distanceFormat(visibility)
             },
             {
                 // TODO: Should report "None" if no precip fell.
-                name: "Precipitation",
-                title: "Recorded rain or snow within the last hour or three hours.",
-                value: Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
+                "name"  : "Precipitation",
+                "title" : "Recorded rain or snow within the last hour or three hours.",
+                "class" : "data",
+                "value" : Object.entries(precip).filter(([k,v]) => v !== 0).map(([k,v]) => {
                         let label = "";
                         if(k.startsWith("rain")){label += "💧";}
                         if(k.startsWith("snow")){label += "❄️";}
@@ -487,14 +504,16 @@ export class Weather {
                     }).join("<br>")
             },
             {
-                name: "🌅Sunrise",
-                title: "Time of sunrise",
-                value: sunrise
+                "name"  : "🌅Sunrise",
+                "title" : "Time of sunrise",
+                "class" : "data",
+                "value" : sunrise
             },
             {
-                name: "🌇Sunset",
-                title: "Time of sunset",
-                value: sunset
+                "name"  : "🌇Sunset",
+                "title" : "Time of sunset",
+                "class" : "data",
+                "value" : sunset
             },
         ];
 
@@ -505,11 +524,24 @@ export class Weather {
         //console.log(current.hasChildNodes());
 
         fields.forEach((field) => {
+            let classes = "";   // add classes to our field value cells
+            if(field.class === "header"){
+                classes += "col_name";
+            }
+            else if(field.class === "data"){
+                if(pod === "d"){
+                    classes += "pod_day";
+                }else if(pod === "n"){
+                    classes += "pod_night";
+                }
+            }
             current.append(
                 this.fieldName(field.name,field.title),
-                this.fieldValue(field.value)
+                this.fieldValue(field.value,classes)
             );
         });
+
+        
     }
 
     
@@ -788,7 +820,6 @@ export class Weather {
                         classes += "pod_night";
                     }
                 }
-                // TODO: classes for day and time headers
                 soon.append(
                     //this.fieldName(field.name,field.title)
                     this.fieldValue(value.value,classes)
